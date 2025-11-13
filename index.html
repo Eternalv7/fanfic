@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEET 2026 Tracker - Comprehensive Study Planner</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .timer-display {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .countdown {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .time-unit {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .time-unit .number {
+            font-size: 2.5em;
+            font-weight: bold;
+            display: block;
+        }
+
+        .time-unit .label {
+            font-size: 0.9em;
+            opacity: 0.9;
+            display: block;
+            margin-top: 5px;
+        }
+
+        .exam-date {
+            text-align: center;
+            color: #667eea;
+            font-weight: bold;
+            margin-top: 15px;
+            font-size: 1.1em;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .stat-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .stat-item .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-item .stat-label {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .progress-bar {
+            background: #e0e0e0;
+            border-radius: 10px;
+            height: 20px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        .subjects-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .subject-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .subject-card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .subject-icon {
+            font-size: 1.5em;
+        }
+
+        .topics-list {
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .topics-list::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .topics-list::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .topics-list::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 10px;
+        }
+
+        .chapter {
+            margin-bottom: 20px;
+        }
+
+        .chapter-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chapter-title:hover {
+            background: #e9ecef;
+        }
+
+        .chapter-progress {
+            font-size: 0.9em;
+            color: #667eea;
+        }
+
+        .topic-item {
+            padding: 8px 15px;
+            margin: 5px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.2s;
+        }
+
+        .topic-item:hover {
+            background: #f8f9fa;
+        }
+
+        .topic-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .topic-item label {
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .topic-item.completed label {
+            text-decoration: line-through;
+            color: #999;
+        }
+
+        .study-timer {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .study-time-display {
+            font-size: 3em;
+            font-weight: bold;
+            color: #667eea;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .session-input {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            margin: 15px 0;
+        }
+
+        .session-input input {
+            padding: 10px;
+            border: 2px solid #667eea;
+            border-radius: 5px;
+            font-size: 1em;
+            width: 80px;
+            text-align: center;
+        }
+
+        .motivational-quote {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-style: italic;
+            margin-top: 20px;
+        }
+
+        .notes-section {
+            margin-top: 20px;
+        }
+
+        .notes-section textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 10px;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            font-size: 1em;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .subjects-section {
+                grid-template-columns: 1fr;
+            }
+
+            .countdown {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            header h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎯 NEET 2026 Tracker</h1>
+            <p>Your Comprehensive Study Companion for Medical Entrance Excellence</p>
+        </header>
+
+        <div class="dashboard">
+            <div class="card">
+                <h2>⏰ Countdown to NEET 2026</h2>
+                <div class="timer-display">
+                    <div class="countdown">
+                        <div class="time-unit">
+                            <span class="number" id="days">000</span>
+                            <span class="label">Days</span>
+                        </div>
+                        <div class="time-unit">
+                            <span class="number" id="hours">00</span>
+                            <span class="label">Hours</span>
+                        </div>
+                        <div class="time-unit">
+                            <span class="number" id="minutes">00</span>
+                            <span class="label">Minutes</span>
+                        </div>
+                        <div class="time-unit">
+                            <span class="number" id="seconds">00</span>
+                            <span class="label">Seconds</span>
+                        </div>
+                    </div>
+                    <div class="exam-date">Expected: May 3, 2026</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>📊 Overall Progress</h2>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-value" id="overallProgress">0%</div>
+                        <div class="stat-label">Syllabus Completed</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="totalTopics">0/0</div>
+                        <div class="stat-label">Topics Done</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="studyTime">0h 0m</div>
+                        <div class="stat-label">Study Time</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="studyStreak">0</div>
+                        <div class="stat-label">Day Streak</div>
+                    </div>
+                </div>
+                <div style="margin-top: 20px;">
+                    <div style="margin-bottom: 10px;">
+                        <strong>Physics:</strong>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="physicsProgress" style="width: 0%">0%</div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <strong>Chemistry:</strong>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="chemistryProgress" style="width: 0%">0%</div>
+                        </div>
+                    </div>
+                    <div>
+                        <strong>Biology:</strong>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="biologyProgress" style="width: 0%">0%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>⏱️ Study Timer</h2>
+                <div class="study-timer">
+                    <div class="study-time-display" id="studyTimerDisplay">00:00:00</div>
+                    <div class="session-input">
+                        <label>Session:</label>
+                        <input type="number" id="sessionMinutes" value="25" min="1" max="180">
+                        <label>minutes</label>
+                    </div>
+                    <div class="timer-controls">
+                        <button class="btn btn-primary" onclick="startStudyTimer()">▶️ Start</button>
+                        <button class="btn btn-secondary" onclick="pauseStudyTimer()">⏸️ Pause</button>
+                        <button class="btn btn-danger" onclick="resetStudyTimer()">🔄 Reset</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="motivational-quote" id="quote">
+            "Success is the sum of small efforts repeated day in and day out."
+        </div>
+
+        <div class="subjects-section">
+            <div class="subject-card">
+                <h3>
+                    <span>⚛️ Physics</span>
+                    <span class="subject-icon" id="physicsCount">0/0</span>
+                </h3>
+                <input type="text" class="search-box" placeholder="Search Physics topics..." onkeyup="searchTopics('physics', this.value)">
+                <div class="filter-buttons">
+                    <button class="filter-btn active" onclick="filterTopics('physics', 'all')">All</button>
+                    <button class="filter-btn" onclick="filterTopics('physics', 'completed')">Completed</button>
+                    <button class="filter-btn" onclick="filterTopics('physics', 'pending')">Pending</button>
+                </div>
+                <div class="topics-list" id="physicsTopics"></div>
+            </div>
+
+            <div class="subject-card">
+                <h3>
+                    <span>🧪 Chemistry</span>
+                    <span class="subject-icon" id="chemistryCount">0/0</span>
+                </h3>
+                <input type="text" class="search-box" placeholder="Search Chemistry topics..." onkeyup="searchTopics('chemistry', this.value)">
+                <div class="filter-buttons">
+                    <button class="filter-btn active" onclick="filterTopics('chemistry', 'all')">All</button>
+                    <button class="filter-btn" onclick="filterTopics('chemistry', 'completed')">Completed</button>
+                    <button class="filter-btn" onclick="filterTopics('chemistry', 'pending')">Pending</button>
+                </div>
+                <div class="topics-list" id="chemistryTopics"></div>
+            </div>
+
+            <div class="subject-card">
+                <h3>
+                    <span>🧬 Biology</span>
+                    <span class="subject-icon" id="biologyCount">0/0</span>
+                </h3>
+                <input type="text" class="search-box" placeholder="Search Biology topics..." onkeyup="searchTopics('biology', this.value)">
+                <div class="filter-buttons">
+                    <button class="filter-btn active" onclick="filterTopics('biology', 'all')">All</button>
+                    <button class="filter-btn" onclick="filterTopics('biology', 'completed')">Completed</button>
+                    <button class="filter-btn" onclick="filterTopics('biology', 'pending')">Pending</button>
+                </div>
+                <div class="topics-list" id="biologyTopics"></div>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 20px;">
+            <h2>📝 Study Notes</h2>
+            <div class="notes-section">
+                <textarea id="studyNotes" placeholder="Write your study notes here..."></textarea>
+                <button class="btn btn-primary" onclick="saveNotes()" style="margin-top: 10px;">💾 Save Notes</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // NEET Syllabus Data
+        const syllabusData = {
+            physics: {
+                "Class 11": [
+                    "Physical World and Measurement",
+                    "Kinematics",
+                    "Laws of Motion",
+                    "Work, Energy and Power",
+                    "Motion of System of Particles and Rigid Body",
+                    "Gravitation",
+                    "Properties of Bulk Matter",
+                    "Thermodynamics",
+                    "Behaviour of Perfect Gas and Kinetic Theory",
+                    "Oscillations and Waves"
+                ],
+                "Class 12": [
+                    "Electrostatics",
+                    "Current Electricity",
+                    "Magnetic Effects of Current and Magnetism",
+                    "Electromagnetic Induction and Alternating Currents",
+                    "Electromagnetic Waves",
+                    "Optics",
+                    "Dual Nature of Matter and Radiation",
+                    "Atoms and Nuclei",
+                    "Electronic Devices"
+                ]
+            },
+            chemistry: {
+                "Physical Chemistry": [
+                    "Some Basic Concepts in Chemistry",
+                    "States of Matter",
+                    "Atomic Structure",
+                    "Chemical Bonding and Molecular Structure",
+                    "Chemical Thermodynamics",
+                    "Solutions",
+                    "Equilibrium",
+                    "Redox Reactions and Electrochemistry",
+                    "Chemical Kinetics",
+                    "Surface Chemistry"
+                ],
+                "Inorganic Chemistry": [
+                    "Classification of Elements and Periodicity",
+                    "General Principles and Process of Isolation of Metals",
+                    "Hydrogen",
+                    "S-Block Elements",
+                    "P-Block Elements",
+                    "D and F Block Elements",
+                    "Coordination Compounds",
+                    "Environmental Chemistry"
+                ],
+                "Organic Chemistry": [
+                    "Purification and Characterisation of Organic Compounds",
+                    "Hydrocarbons",
+                    "Organic Compounds Containing Halogens",
+                    "Organic Compounds Containing Oxygen",
+                    "Organic Compounds Containing Nitrogen",
+                    "Polymers",
+                    "Biomolecules",
+                    "Chemistry in Everyday Life",
+                    "Principles Related to Practical Chemistry"
+                ]
+            },
+            biology: {
+                "Botany - Diversity in Living World": [
+                    "The Living World",
+                    "Biological Classification",
+                    "Plant Kingdom",
+                    "Animal Kingdom"
+                ],
+                "Botany - Structural Organisation": [
+                    "Morphology of Flowering Plants",
+                    "Anatomy of Flowering Plants",
+                    "Structural Organisation in Animals"
+                ],
+                "Botany - Cell Structure and Function": [
+                    "Cell: The Unit of Life",
+                    "Biomolecules",
+                    "Cell Cycle and Cell Division"
+                ],
+                "Botany - Plant Physiology": [
+                    "Transport in Plants",
+                    "Mineral Nutrition",
+                    "Photosynthesis in Higher Plants",
+                    "Respiration in Plants",
+                    "Plant Growth and Development"
+                ],
+                "Zoology - Human Physiology": [
+                    "Digestion and Absorption",
+                    "Breathing and Exchange of Gases",
+                    "Body Fluids and Circulation",
+                    "Excretory Products and their Elimination",
+                    "Locomotion and Movement",
+                    "Neural Control and Coordination",
+                    "Chemical Coordination and Integration"
+                ],
+                "Genetics and Evolution": [
+                    "Reproduction in Organisms",
+                    "Sexual Reproduction in Flowering Plants",
+                    "Human Reproduction",
+                    "Reproductive Health",
+                    "Principles of Inheritance and Variation",
+                    "Molecular Basis of Inheritance",
+                    "Evolution"
+                ],
+                "Biology and Human Welfare": [
+                    "Human Health and Disease",
+                    "Strategies for Enhancement in Food Production",
+                    "Microbes in Human Welfare"
+                ],
+                "Biotechnology": [
+                    "Biotechnology: Principles and Processes",
+                    "Biotechnology and its Applications"
+                ],
+                "Ecology": [
+                    "Organisms and Populations",
+                    "Ecosystem",
+                    "Biodiversity and Conservation",
+                    "Environmental Issues"
+                ]
+            }
+        };
+
+        // State Management
+        let progress = JSON.parse(localStorage.getItem('neetProgress')) || {
+            physics: {},
+            chemistry: {},
+            biology: {}
+        };
+
+        let studyStats = JSON.parse(localStorage.getItem('neetStudyStats')) || {
+            totalStudyTime: 0,
+            lastStudyDate: null,
+            streak: 0
+        };
+
+        let studyTimerInterval = null;
+        let studyTimerSeconds = 0;
+        let isStudyTimerRunning = false;
+
+        // Motivational Quotes
+        const quotes = [
+            "Success is the sum of small efforts repeated day in and day out.",
+            "Your future is created by what you do today, not tomorrow.",
+            "The expert in anything was once a beginner.",
+            "Study while others are sleeping; work while others are loafing.",
+            "Dream big, work hard, stay focused and surround yourself with good people.",
+            "The only way to do great work is to love what you do.",
+            "Success doesn't come from what you do occasionally, it comes from what you do consistently.",
+            "Believe you can and you're halfway there.",
+            "The harder you work for something, the greater you'll feel when you achieve it."
+        ];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeCountdown();
+            renderAllSubjects();
+            updateAllStats();
+            loadNotes();
+            rotateQuote();
+            setInterval(rotateQuote, 30000); // Change quote every 30 seconds
+        });
+
+        // Countdown Timer
+        function initializeCountdown() {
+            const examDate = new Date('2026-05-03T09:00:00');
+
+            function updateCountdown() {
+                const now = new Date();
+                const diff = examDate - now;
+
+                if (diff > 0) {
+                    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                    document.getElementById('days').textContent = String(days).padStart(3, '0');
+                    document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+                    document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+                    document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+                }
+            }
+
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        }
+
+        // Render Subjects
+        function renderAllSubjects() {
+            renderSubject('physics', syllabusData.physics);
+            renderSubject('chemistry', syllabusData.chemistry);
+            renderSubject('biology', syllabusData.biology);
+        }
+
+        function renderSubject(subject, data) {
+            const container = document.getElementById(`${subject}Topics`);
+            container.innerHTML = '';
+
+            for (const [chapter, topics] of Object.entries(data)) {
+                const chapterDiv = document.createElement('div');
+                chapterDiv.className = 'chapter';
+
+                const chapterTitle = document.createElement('div');
+                chapterTitle.className = 'chapter-title';
+
+                const completedTopics = topics.filter(topic =>
+                    progress[subject][`${chapter}::${topic}`]
+                ).length;
+
+                chapterTitle.innerHTML = `
+                    <span>${chapter}</span>
+                    <span class="chapter-progress">${completedTopics}/${topics.length}</span>
+                `;
+
+                const topicsList = document.createElement('div');
+
+                topics.forEach(topic => {
+                    const topicKey = `${chapter}::${topic}`;
+                    const isCompleted = progress[subject][topicKey] || false;
+
+                    const topicDiv = document.createElement('div');
+                    topicDiv.className = `topic-item ${isCompleted ? 'completed' : ''}`;
+                    topicDiv.dataset.chapter = chapter;
+                    topicDiv.dataset.topic = topic;
+
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.checked = isCompleted;
+                    checkbox.id = `${subject}-${topicKey}`;
+                    checkbox.onchange = () => toggleTopic(subject, chapter, topic, checkbox.checked);
+
+                    const label = document.createElement('label');
+                    label.htmlFor = `${subject}-${topicKey}`;
+                    label.textContent = topic;
+
+                    topicDiv.appendChild(checkbox);
+                    topicDiv.appendChild(label);
+                    topicsList.appendChild(topicDiv);
+                });
+
+                chapterDiv.appendChild(chapterTitle);
+                chapterDiv.appendChild(topicsList);
+                container.appendChild(chapterDiv);
+            }
+        }
+
+        // Toggle Topic
+        function toggleTopic(subject, chapter, topic, isCompleted) {
+            const topicKey = `${chapter}::${topic}`;
+            progress[subject][topicKey] = isCompleted;
+
+            localStorage.setItem('neetProgress', JSON.stringify(progress));
+            updateAllStats();
+            renderSubject(subject, syllabusData[subject]);
+        }
+
+        // Update Statistics
+        function updateAllStats() {
+            let totalTopics = 0;
+            let completedTopics = 0;
+
+            ['physics', 'chemistry', 'biology'].forEach(subject => {
+                let subjectTotal = 0;
+                let subjectCompleted = 0;
+
+                Object.values(syllabusData[subject]).forEach(topics => {
+                    subjectTotal += topics.length;
+                    topics.forEach(topic => {
+                        const chapter = Object.keys(syllabusData[subject]).find(ch =>
+                            syllabusData[subject][ch].includes(topic)
+                        );
+                        const topicKey = `${chapter}::${topic}`;
+                        if (progress[subject][topicKey]) {
+                            subjectCompleted++;
+                        }
+                    });
+                });
+
+                totalTopics += subjectTotal;
+                completedTopics += subjectCompleted;
+
+                const percentage = subjectTotal > 0 ? Math.round((subjectCompleted / subjectTotal) * 100) : 0;
+                document.getElementById(`${subject}Progress`).style.width = `${percentage}%`;
+                document.getElementById(`${subject}Progress`).textContent = `${percentage}%`;
+                document.getElementById(`${subject}Count`).textContent = `${subjectCompleted}/${subjectTotal}`;
+            });
+
+            const overallPercentage = totalTopics > 0 ? Math.round((completedTopics / totalTopics) * 100) : 0;
+            document.getElementById('overallProgress').textContent = `${overallPercentage}%`;
+            document.getElementById('totalTopics').textContent = `${completedTopics}/${totalTopics}`;
+
+            // Update study time
+            const hours = Math.floor(studyStats.totalStudyTime / 3600);
+            const minutes = Math.floor((studyStats.totalStudyTime % 3600) / 60);
+            document.getElementById('studyTime').textContent = `${hours}h ${minutes}m`;
+
+            // Update streak
+            updateStreak();
+            document.getElementById('studyStreak').textContent = studyStats.streak;
+        }
+
+        // Update Streak
+        function updateStreak() {
+            const today = new Date().toDateString();
+            const lastStudy = studyStats.lastStudyDate;
+
+            if (lastStudy === today) {
+                // Already studied today
+                return;
+            }
+
+            if (lastStudy) {
+                const lastDate = new Date(lastStudy);
+                const currentDate = new Date(today);
+                const diffTime = currentDate - lastDate;
+                const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+                if (diffDays === 1) {
+                    // Consecutive day
+                    studyStats.streak++;
+                } else if (diffDays > 1) {
+                    // Streak broken
+                    studyStats.streak = 1;
+                }
+            } else {
+                studyStats.streak = 1;
+            }
+
+            studyStats.lastStudyDate = today;
+            localStorage.setItem('neetStudyStats', JSON.stringify(studyStats));
+        }
+
+        // Study Timer Functions
+        function startStudyTimer() {
+            if (!isStudyTimerRunning) {
+                if (studyTimerSeconds === 0) {
+                    const minutes = parseInt(document.getElementById('sessionMinutes').value) || 25;
+                    studyTimerSeconds = minutes * 60;
+                }
+
+                isStudyTimerRunning = true;
+                studyTimerInterval = setInterval(() => {
+                    if (studyTimerSeconds > 0) {
+                        studyTimerSeconds--;
+                        updateStudyTimerDisplay();
+
+                        // Save every minute
+                        if (studyTimerSeconds % 60 === 0) {
+                            studyStats.totalStudyTime += 60;
+                            localStorage.setItem('neetStudyStats', JSON.stringify(studyStats));
+                            updateAllStats();
+                        }
+                    } else {
+                        pauseStudyTimer();
+                        alert('⏰ Study session completed! Great work!');
+                    }
+                }, 1000);
+            }
+        }
+
+        function pauseStudyTimer() {
+            isStudyTimerRunning = false;
+            if (studyTimerInterval) {
+                clearInterval(studyTimerInterval);
+                studyTimerInterval = null;
+            }
+        }
+
+        function resetStudyTimer() {
+            pauseStudyTimer();
+            studyTimerSeconds = 0;
+            updateStudyTimerDisplay();
+        }
+
+        function updateStudyTimerDisplay() {
+            const hours = Math.floor(studyTimerSeconds / 3600);
+            const minutes = Math.floor((studyTimerSeconds % 3600) / 60);
+            const seconds = studyTimerSeconds % 60;
+
+            document.getElementById('studyTimerDisplay').textContent =
+                `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        // Search Topics
+        function searchTopics(subject, query) {
+            const container = document.getElementById(`${subject}Topics`);
+            const chapters = container.querySelectorAll('.chapter');
+
+            chapters.forEach(chapter => {
+                const topics = chapter.querySelectorAll('.topic-item');
+                let hasVisibleTopic = false;
+
+                topics.forEach(topic => {
+                    const label = topic.querySelector('label').textContent.toLowerCase();
+                    if (label.includes(query.toLowerCase())) {
+                        topic.style.display = 'flex';
+                        hasVisibleTopic = true;
+                    } else {
+                        topic.style.display = 'none';
+                    }
+                });
+
+                chapter.style.display = hasVisibleTopic ? 'block' : 'none';
+            });
+        }
+
+        // Filter Topics
+        function filterTopics(subject, filter) {
+            const container = document.getElementById(`${subject}Topics`);
+            const topics = container.querySelectorAll('.topic-item');
+            const buttons = container.previousElementSibling.querySelectorAll('.filter-btn');
+
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            topics.forEach(topic => {
+                const isCompleted = topic.classList.contains('completed');
+
+                if (filter === 'all') {
+                    topic.style.display = 'flex';
+                } else if (filter === 'completed' && isCompleted) {
+                    topic.style.display = 'flex';
+                } else if (filter === 'pending' && !isCompleted) {
+                    topic.style.display = 'flex';
+                } else {
+                    topic.style.display = 'none';
+                }
+            });
+        }
+
+        // Notes Functions
+        function saveNotes() {
+            const notes = document.getElementById('studyNotes').value;
+            localStorage.setItem('neetStudyNotes', notes);
+            alert('📝 Notes saved successfully!');
+        }
+
+        function loadNotes() {
+            const notes = localStorage.getItem('neetStudyNotes') || '';
+            document.getElementById('studyNotes').value = notes;
+        }
+
+        // Rotate Quote
+        function rotateQuote() {
+            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            document.getElementById('quote').textContent = `"${randomQuote}"`;
+        }
+
+        // Auto-save notes every 30 seconds
+        setInterval(() => {
+            const notes = document.getElementById('studyNotes').value;
+            if (notes) {
+                localStorage.setItem('neetStudyNotes', notes);
+            }
+        }, 30000);
+    </script>
+</body>
+</html>
