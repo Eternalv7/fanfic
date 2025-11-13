@@ -3,8 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEET 2026 Tracker - Comprehensive Study Planner</title>
+    <title>NEET 2026 Tracker - Premium Study Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --primary-light: #818cf8;
+            --secondary: #8b5cf6;
+            --accent: #ec4899;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #06b6d4;
+            --dark: #1e293b;
+            --dark-light: #334155;
+            --gray: #64748b;
+            --gray-light: #94a3b8;
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --border: #334155;
+            --shadow: rgba(0, 0, 0, 0.3);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,1008 +36,1366 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(236, 72, 153, 0.1) 0%, transparent 50%);
+            z-index: -1;
+            animation: backgroundShift 20s ease infinite;
         }
 
-        header {
-            text-align: center;
-            color: white;
-            margin-bottom: 30px;
+        @keyframes backgroundShift {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
         }
 
-        header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        header p {
-            font-size: 1.2em;
-            opacity: 0.9;
-        }
-
-        .dashboard {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .card {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: var(--bg-card);
+            border-right: 1px solid var(--border);
+            padding: 2rem 0;
+            overflow-y: auto;
+            z-index: 100;
             transition: transform 0.3s ease;
         }
 
-        .card:hover {
-            transform: translateY(-5px);
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
         }
 
-        .card h2 {
-            color: #667eea;
-            margin-bottom: 15px;
-            font-size: 1.5em;
-            border-bottom: 2px solid #667eea;
-            padding-bottom: 10px;
+        .sidebar::-webkit-scrollbar-track {
+            background: transparent;
         }
 
-        .timer-display {
-            text-align: center;
-            padding: 20px;
-        }
-
-        .countdown {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .time-unit {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px;
+        .sidebar::-webkit-scrollbar-thumb {
+            background: var(--border);
             border-radius: 10px;
-            text-align: center;
         }
 
-        .time-unit .number {
-            font-size: 2.5em;
-            font-weight: bold;
-            display: block;
+        .logo {
+            padding: 0 2rem 2rem;
+            border-bottom: 1px solid var(--border);
         }
 
-        .time-unit .label {
-            font-size: 0.9em;
-            opacity: 0.9;
-            display: block;
-            margin-top: 5px;
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .exam-date {
-            text-align: center;
-            color: #667eea;
-            font-weight: bold;
-            margin-top: 15px;
-            font-size: 1.1em;
+        .logo p {
+            font-size: 0.75rem;
+            color: var(--gray-light);
+            margin-top: 0.25rem;
         }
 
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
+        .nav-menu {
+            padding: 1.5rem 0;
         }
 
-        .stat-item {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 10px;
-            border-left: 4px solid #667eea;
-        }
-
-        .stat-item .stat-value {
-            font-size: 2em;
-            font-weight: bold;
-            color: #667eea;
-        }
-
-        .stat-item .stat-label {
-            font-size: 0.9em;
-            color: #666;
-            margin-top: 5px;
-        }
-
-        .progress-bar {
-            background: #e0e0e0;
-            border-radius: 10px;
-            height: 20px;
-            overflow: hidden;
-            margin: 10px 0;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-            transition: width 0.3s ease;
+        .nav-item {
+            padding: 0.75rem 2rem;
             display: flex;
             align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 0.8em;
-            font-weight: bold;
-        }
-
-        .subjects-section {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .subject-card {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-
-        .subject-card h3 {
-            color: #667eea;
-            margin-bottom: 15px;
-            font-size: 1.3em;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .subject-icon {
-            font-size: 1.5em;
-        }
-
-        .topics-list {
-            max-height: 400px;
-            overflow-y: auto;
-            padding-right: 10px;
-        }
-
-        .topics-list::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .topics-list::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
-        }
-
-        .topics-list::-webkit-scrollbar-thumb {
-            background: #667eea;
-            border-radius: 10px;
-        }
-
-        .chapter {
-            margin-bottom: 20px;
-        }
-
-        .chapter-title {
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 10px;
-            padding: 10px;
-            background: #f8f9fa;
-            border-radius: 5px;
+            gap: 1rem;
+            color: var(--text-secondary);
             cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary-light);
+        }
+
+        .nav-item.active {
+            background: rgba(99, 102, 241, 0.15);
+            color: var(--primary-light);
+            border-left-color: var(--primary);
+        }
+
+        .nav-icon {
+            font-size: 1.25rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        .top-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
-        .chapter-title:hover {
-            background: #e9ecef;
+        .welcome-section h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
         }
 
-        .chapter-progress {
-            font-size: 0.9em;
-            color: #667eea;
+        .welcome-section p {
+            color: var(--text-secondary);
         }
 
-        .topic-item {
-            padding: 8px 15px;
-            margin: 5px 0;
+        .quick-actions {
             display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: background 0.2s;
-        }
-
-        .topic-item:hover {
-            background: #f8f9fa;
-        }
-
-        .topic-item input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-        }
-
-        .topic-item label {
-            flex: 1;
-            cursor: pointer;
-        }
-
-        .topic-item.completed label {
-            text-decoration: line-through;
-            color: #999;
-        }
-
-        .study-timer {
-            text-align: center;
-            padding: 20px;
-        }
-
-        .timer-controls {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 15px;
+            gap: 1rem;
             flex-wrap: wrap;
         }
 
-        .btn {
-            padding: 12px 24px;
+        .action-btn {
+            padding: 0.75rem 1.5rem;
             border: none;
-            border-radius: 8px;
-            font-size: 1em;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.875rem;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
         }
 
         .btn-secondary {
-            background: #6c757d;
-            color: white;
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
         }
 
         .btn-secondary:hover {
-            background: #5a6268;
+            border-color: var(--primary);
+            color: var(--primary);
         }
 
-        .btn-danger {
-            background: #dc3545;
-            color: white;
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
         }
 
-        .btn-danger:hover {
-            background: #c82333;
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
         }
 
-        .study-time-display {
-            font-size: 3em;
-            font-weight: bold;
-            color: #667eea;
-            margin: 20px 0;
-            font-family: 'Courier New', monospace;
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
         }
 
-        .session-input {
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px var(--shadow);
+            border-color: var(--primary);
+        }
+
+        .stat-header {
             display: flex;
-            gap: 10px;
-            justify-content: center;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
             align-items: center;
-            margin: 15px 0;
+            justify-content: center;
+            font-size: 1.5rem;
         }
 
-        .session-input input {
-            padding: 10px;
-            border: 2px solid #667eea;
-            border-radius: 5px;
-            font-size: 1em;
-            width: 80px;
-            text-align: center;
+        .stat-icon.primary { background: rgba(99, 102, 241, 0.15); color: var(--primary-light); }
+        .stat-icon.success { background: rgba(16, 185, 129, 0.15); color: var(--success); }
+        .stat-icon.warning { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
+        .stat-icon.accent { background: rgba(236, 72, 153, 0.15); color: var(--accent); }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-weight: 500;
         }
 
-        .motivational-quote {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            font-style: italic;
-            margin-top: 20px;
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
         }
 
-        .notes-section {
-            margin-top: 20px;
-        }
-
-        .notes-section textarea {
-            width: 100%;
-            min-height: 100px;
-            padding: 10px;
-            border: 2px solid #667eea;
-            border-radius: 8px;
-            font-size: 1em;
-            font-family: inherit;
-            resize: vertical;
-        }
-
-        .filter-buttons {
+        .stat-change {
+            font-size: 0.875rem;
             display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.25rem;
         }
 
-        .filter-btn {
-            padding: 8px 16px;
-            border: 2px solid #667eea;
-            background: white;
-            color: #667eea;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s;
+        .stat-change.positive { color: var(--success); }
+        .stat-change.negative { color: var(--danger); }
+
+        /* Countdown Timer */
+        .countdown-section {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
         }
 
-        .filter-btn.active {
-            background: #667eea;
+        .countdown-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .countdown-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .countdown-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
             color: white;
         }
 
-        .search-box {
-            width: 100%;
-            padding: 10px;
-            border: 2px solid #667eea;
+        .countdown-header p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+        }
+
+        .countdown-timer {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .time-box {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .time-value {
+            font-size: 3rem;
+            font-weight: 800;
+            color: white;
+            display: block;
+            line-height: 1;
+        }
+
+        .time-label {
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 10px 30px var(--shadow);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .card-action {
+            color: var(--primary-light);
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .card-action:hover {
+            color: var(--primary);
+        }
+
+        /* Progress Rings */
+        .progress-rings {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .ring-container {
+            text-align: center;
+        }
+
+        .circular-progress {
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 1rem;
+            position: relative;
+        }
+
+        .circular-progress svg {
+            transform: rotate(-90deg);
+        }
+
+        .circular-progress circle {
+            fill: none;
+            stroke-width: 8;
+        }
+
+        .circle-bg {
+            stroke: var(--border);
+        }
+
+        .circle-progress {
+            stroke: url(#gradient);
+            stroke-linecap: round;
+            transition: stroke-dashoffset 1s ease;
+        }
+
+        .progress-value {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.75rem;
+            font-weight: 700;
+        }
+
+        .subject-name {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .subject-stats {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        /* Study Timer Card */
+        .timer-card {
+            text-align: center;
+        }
+
+        .timer-display-large {
+            font-size: 4rem;
+            font-weight: 800;
+            font-family: 'Courier New', monospace;
+            margin: 2rem 0;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .timer-modes {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .mode-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-secondary);
             border-radius: 8px;
-            font-size: 1em;
-            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.875rem;
+        }
+
+        .mode-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .control-btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .control-btn.play {
+            background: linear-gradient(135deg, var(--success), #059669);
+            color: white;
+        }
+
+        .control-btn.pause {
+            background: linear-gradient(135deg, var(--warning), #d97706);
+            color: white;
+        }
+
+        .control-btn.reset {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        /* Achievements */
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 1rem;
+        }
+
+        .achievement {
+            text-align: center;
+            padding: 1rem;
+            border-radius: 12px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .achievement.unlocked {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .achievement:hover {
+            transform: translateY(-4px);
+        }
+
+        .achievement-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            filter: grayscale(100%);
+            opacity: 0.5;
+        }
+
+        .achievement.unlocked .achievement-icon {
+            filter: grayscale(0%);
+            opacity: 1;
+        }
+
+        .achievement-name {
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* Subject Cards */
+        .subjects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .subject-card-new {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .subject-card-new:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px var(--shadow);
+        }
+
+        .subject-header-new {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+            border-bottom: 1px solid var(--border);
+        }
+
+        .subject-title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .subject-title-new {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .search-filter-row {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 0.875rem;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .filter-chips {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chip {
+            padding: 0.5rem 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .chip.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .subject-content {
+            padding: 1.5rem;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .subject-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .subject-content::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 10px;
+        }
+
+        .chapter-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .chapter-header-new {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .chapter-header-new:hover {
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .chapter-name {
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .chapter-stats {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .topics-list-new {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .topic-item-new {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 1rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .topic-item-new:hover {
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .custom-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .topic-item-new.completed .custom-checkbox {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .topic-label {
+            flex: 1;
+            color: var(--text-primary);
+        }
+
+        .topic-item-new.completed .topic-label {
+            text-decoration: line-through;
+            color: var(--text-secondary);
+        }
+
+        /* Daily Goals */
+        .goals-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .goal-item {
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            border-left: 3px solid var(--primary);
+        }
+
+        .goal-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .goal-title {
+            font-weight: 600;
+        }
+
+        .goal-progress-bar {
+            height: 6px;
+            background: var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .goal-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: width 0.3s ease;
+        }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 1000;
+            padding: 0.75rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .subjects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .progress-rings {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
         }
 
         @media (max-width: 768px) {
-            .dashboard {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .stats-grid {
                 grid-template-columns: 1fr;
             }
 
-            .subjects-section {
-                grid-template-columns: 1fr;
-            }
-
-            .countdown {
+            .countdown-timer {
                 grid-template-columns: repeat(2, 1fr);
             }
 
-            header h1 {
-                font-size: 1.8em;
+            .time-value {
+                font-size: 2rem;
             }
+
+            .timer-display-large {
+                font-size: 2.5rem;
+            }
+
+            .top-bar {
+                margin-top: 3rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* View Sections */
+        .view-section {
+            display: none;
+        }
+
+        .view-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🎯 NEET 2026 Tracker</h1>
-            <p>Your Comprehensive Study Companion for Medical Entrance Excellence</p>
-        </header>
-
-        <div class="dashboard">
-            <div class="card">
-                <h2>⏰ Countdown to NEET 2026</h2>
-                <div class="timer-display">
-                    <div class="countdown">
-                        <div class="time-unit">
-                            <span class="number" id="days">000</span>
-                            <span class="label">Days</span>
-                        </div>
-                        <div class="time-unit">
-                            <span class="number" id="hours">00</span>
-                            <span class="label">Hours</span>
-                        </div>
-                        <div class="time-unit">
-                            <span class="number" id="minutes">00</span>
-                            <span class="label">Minutes</span>
-                        </div>
-                        <div class="time-unit">
-                            <span class="number" id="seconds">00</span>
-                            <span class="label">Seconds</span>
-                        </div>
-                    </div>
-                    <div class="exam-date">Expected: May 3, 2026</div>
-                </div>
-            </div>
-
-            <div class="card">
-                <h2>📊 Overall Progress</h2>
-                <div class="stats-grid">
-                    <div class="stat-item">
-                        <div class="stat-value" id="overallProgress">0%</div>
-                        <div class="stat-label">Syllabus Completed</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value" id="totalTopics">0/0</div>
-                        <div class="stat-label">Topics Done</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value" id="studyTime">0h 0m</div>
-                        <div class="stat-label">Study Time</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value" id="studyStreak">0</div>
-                        <div class="stat-label">Day Streak</div>
-                    </div>
-                </div>
-                <div style="margin-top: 20px;">
-                    <div style="margin-bottom: 10px;">
-                        <strong>Physics:</strong>
-                        <div class="progress-bar">
-                            <div class="progress-fill" id="physicsProgress" style="width: 0%">0%</div>
-                        </div>
-                    </div>
-                    <div style="margin-bottom: 10px;">
-                        <strong>Chemistry:</strong>
-                        <div class="progress-bar">
-                            <div class="progress-fill" id="chemistryProgress" style="width: 0%">0%</div>
-                        </div>
-                    </div>
-                    <div>
-                        <strong>Biology:</strong>
-                        <div class="progress-bar">
-                            <div class="progress-fill" id="biologyProgress" style="width: 0%">0%</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <h2>⏱️ Study Timer</h2>
-                <div class="study-timer">
-                    <div class="study-time-display" id="studyTimerDisplay">00:00:00</div>
-                    <div class="session-input">
-                        <label>Session:</label>
-                        <input type="number" id="sessionMinutes" value="25" min="1" max="180">
-                        <label>minutes</label>
-                    </div>
-                    <div class="timer-controls">
-                        <button class="btn btn-primary" onclick="startStudyTimer()">▶️ Start</button>
-                        <button class="btn btn-secondary" onclick="pauseStudyTimer()">⏸️ Pause</button>
-                        <button class="btn btn-danger" onclick="resetStudyTimer()">🔄 Reset</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="motivational-quote" id="quote">
-            "Success is the sum of small efforts repeated day in and day out."
-        </div>
-
-        <div class="subjects-section">
-            <div class="subject-card">
-                <h3>
-                    <span>⚛️ Physics</span>
-                    <span class="subject-icon" id="physicsCount">0/0</span>
-                </h3>
-                <input type="text" class="search-box" placeholder="Search Physics topics..." onkeyup="searchTopics('physics', this.value)">
-                <div class="filter-buttons">
-                    <button class="filter-btn active" onclick="filterTopics('physics', 'all')">All</button>
-                    <button class="filter-btn" onclick="filterTopics('physics', 'completed')">Completed</button>
-                    <button class="filter-btn" onclick="filterTopics('physics', 'pending')">Pending</button>
-                </div>
-                <div class="topics-list" id="physicsTopics"></div>
-            </div>
-
-            <div class="subject-card">
-                <h3>
-                    <span>🧪 Chemistry</span>
-                    <span class="subject-icon" id="chemistryCount">0/0</span>
-                </h3>
-                <input type="text" class="search-box" placeholder="Search Chemistry topics..." onkeyup="searchTopics('chemistry', this.value)">
-                <div class="filter-buttons">
-                    <button class="filter-btn active" onclick="filterTopics('chemistry', 'all')">All</button>
-                    <button class="filter-btn" onclick="filterTopics('chemistry', 'completed')">Completed</button>
-                    <button class="filter-btn" onclick="filterTopics('chemistry', 'pending')">Pending</button>
-                </div>
-                <div class="topics-list" id="chemistryTopics"></div>
-            </div>
-
-            <div class="subject-card">
-                <h3>
-                    <span>🧬 Biology</span>
-                    <span class="subject-icon" id="biologyCount">0/0</span>
-                </h3>
-                <input type="text" class="search-box" placeholder="Search Biology topics..." onkeyup="searchTopics('biology', this.value)">
-                <div class="filter-buttons">
-                    <button class="filter-btn active" onclick="filterTopics('biology', 'all')">All</button>
-                    <button class="filter-btn" onclick="filterTopics('biology', 'completed')">Completed</button>
-                    <button class="filter-btn" onclick="filterTopics('biology', 'pending')">Pending</button>
-                </div>
-                <div class="topics-list" id="biologyTopics"></div>
-            </div>
-        </div>
-
-        <div class="card" style="margin-top: 20px;">
-            <h2>📝 Study Notes</h2>
-            <div class="notes-section">
-                <textarea id="studyNotes" placeholder="Write your study notes here..."></textarea>
-                <button class="btn btn-primary" onclick="saveNotes()" style="margin-top: 10px;">💾 Save Notes</button>
-            </div>
-        </div>
+    <!-- Mobile Menu Toggle -->
+    <div class="menu-toggle" onclick="toggleSidebar()">
+        <span style="font-size: 1.5rem;">☰</span>
     </div>
 
-    <script>
-        // NEET Syllabus Data
-        const syllabusData = {
-            physics: {
-                "Class 11": [
-                    "Physical World and Measurement",
-                    "Kinematics",
-                    "Laws of Motion",
-                    "Work, Energy and Power",
-                    "Motion of System of Particles and Rigid Body",
-                    "Gravitation",
-                    "Properties of Bulk Matter",
-                    "Thermodynamics",
-                    "Behaviour of Perfect Gas and Kinetic Theory",
-                    "Oscillations and Waves"
-                ],
-                "Class 12": [
-                    "Electrostatics",
-                    "Current Electricity",
-                    "Magnetic Effects of Current and Magnetism",
-                    "Electromagnetic Induction and Alternating Currents",
-                    "Electromagnetic Waves",
-                    "Optics",
-                    "Dual Nature of Matter and Radiation",
-                    "Atoms and Nuclei",
-                    "Electronic Devices"
-                ]
-            },
-            chemistry: {
-                "Physical Chemistry": [
-                    "Some Basic Concepts in Chemistry",
-                    "States of Matter",
-                    "Atomic Structure",
-                    "Chemical Bonding and Molecular Structure",
-                    "Chemical Thermodynamics",
-                    "Solutions",
-                    "Equilibrium",
-                    "Redox Reactions and Electrochemistry",
-                    "Chemical Kinetics",
-                    "Surface Chemistry"
-                ],
-                "Inorganic Chemistry": [
-                    "Classification of Elements and Periodicity",
-                    "General Principles and Process of Isolation of Metals",
-                    "Hydrogen",
-                    "S-Block Elements",
-                    "P-Block Elements",
-                    "D and F Block Elements",
-                    "Coordination Compounds",
-                    "Environmental Chemistry"
-                ],
-                "Organic Chemistry": [
-                    "Purification and Characterisation of Organic Compounds",
-                    "Hydrocarbons",
-                    "Organic Compounds Containing Halogens",
-                    "Organic Compounds Containing Oxygen",
-                    "Organic Compounds Containing Nitrogen",
-                    "Polymers",
-                    "Biomolecules",
-                    "Chemistry in Everyday Life",
-                    "Principles Related to Practical Chemistry"
-                ]
-            },
-            biology: {
-                "Botany - Diversity in Living World": [
-                    "The Living World",
-                    "Biological Classification",
-                    "Plant Kingdom",
-                    "Animal Kingdom"
-                ],
-                "Botany - Structural Organisation": [
-                    "Morphology of Flowering Plants",
-                    "Anatomy of Flowering Plants",
-                    "Structural Organisation in Animals"
-                ],
-                "Botany - Cell Structure and Function": [
-                    "Cell: The Unit of Life",
-                    "Biomolecules",
-                    "Cell Cycle and Cell Division"
-                ],
-                "Botany - Plant Physiology": [
-                    "Transport in Plants",
-                    "Mineral Nutrition",
-                    "Photosynthesis in Higher Plants",
-                    "Respiration in Plants",
-                    "Plant Growth and Development"
-                ],
-                "Zoology - Human Physiology": [
-                    "Digestion and Absorption",
-                    "Breathing and Exchange of Gases",
-                    "Body Fluids and Circulation",
-                    "Excretory Products and their Elimination",
-                    "Locomotion and Movement",
-                    "Neural Control and Coordination",
-                    "Chemical Coordination and Integration"
-                ],
-                "Genetics and Evolution": [
-                    "Reproduction in Organisms",
-                    "Sexual Reproduction in Flowering Plants",
-                    "Human Reproduction",
-                    "Reproductive Health",
-                    "Principles of Inheritance and Variation",
-                    "Molecular Basis of Inheritance",
-                    "Evolution"
-                ],
-                "Biology and Human Welfare": [
-                    "Human Health and Disease",
-                    "Strategies for Enhancement in Food Production",
-                    "Microbes in Human Welfare"
-                ],
-                "Biotechnology": [
-                    "Biotechnology: Principles and Processes",
-                    "Biotechnology and its Applications"
-                ],
-                "Ecology": [
-                    "Organisms and Populations",
-                    "Ecosystem",
-                    "Biodiversity and Conservation",
-                    "Environmental Issues"
-                ]
-            }
-        };
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">
+            <h1>NEET 2026</h1>
+            <p>Study Dashboard</p>
+        </div>
+        <nav class="nav-menu">
+            <div class="nav-item active" onclick="showView('dashboard')">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard</span>
+            </div>
+            <div class="nav-item" onclick="showView('subjects')">
+                <span class="nav-icon">📚</span>
+                <span>Subjects</span>
+            </div>
+            <div class="nav-item" onclick="showView('timer')">
+                <span class="nav-icon">⏱️</span>
+                <span>Study Timer</span>
+            </div>
+            <div class="nav-item" onclick="showView('analytics')">
+                <span class="nav-icon">📈</span>
+                <span>Analytics</span>
+            </div>
+            <div class="nav-item" onclick="showView('goals')">
+                <span class="nav-icon">🎯</span>
+                <span>Daily Goals</span>
+            </div>
+            <div class="nav-item" onclick="showView('achievements')">
+                <span class="nav-icon">🏆</span>
+                <span>Achievements</span>
+            </div>
+            <div class="nav-item" onclick="showView('notes')">
+                <span class="nav-icon">📝</span>
+                <span>Notes</span>
+            </div>
+        </nav>
+    </aside>
 
-        // State Management
-        let progress = JSON.parse(localStorage.getItem('neetProgress')) || {
-            physics: {},
-            chemistry: {},
-            biology: {}
-        };
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Dashboard View -->
+        <div class="view-section active" id="dashboard-view">
+            <div class="top-bar">
+                <div class="welcome-section">
+                    <h2>Welcome back, Aspirant!</h2>
+                    <p>Track your progress and stay on top of your NEET preparation</p>
+                </div>
+                <div class="quick-actions">
+                    <button class="action-btn btn-primary" onclick="showView('timer')">
+                        <span>▶️</span>
+                        <span>Start Studying</span>
+                    </button>
+                    <button class="action-btn btn-secondary" onclick="exportData()">
+                        <span>📥</span>
+                        <span>Export Data</span>
+                    </button>
+                </div>
+            </div>
 
-        let studyStats = JSON.parse(localStorage.getItem('neetStudyStats')) || {
-            totalStudyTime: 0,
-            lastStudyDate: null,
-            streak: 0
-        };
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div>
+                            <div class="stat-label">Overall Progress</div>
+                        </div>
+                        <div class="stat-icon primary">📊</div>
+                    </div>
+                    <div class="stat-value" id="overallProgress">0%</div>
+                    <div class="stat-change positive">
+                        <span>↑</span>
+                        <span id="progressChange">0%</span>
+                        <span style="color: var(--text-secondary);">this week</span>
+                    </div>
+                </div>
 
-        let studyTimerInterval = null;
-        let studyTimerSeconds = 0;
-        let isStudyTimerRunning = false;
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div>
+                            <div class="stat-label">Topics Completed</div>
+                        </div>
+                        <div class="stat-icon success">✓</div>
+                    </div>
+                    <div class="stat-value" id="totalTopics">0/0</div>
+                    <div class="stat-change positive">
+                        <span>↑</span>
+                        <span id="topicsThisWeek">0</span>
+                        <span style="color: var(--text-secondary);">this week</span>
+                    </div>
+                </div>
 
-        // Motivational Quotes
-        const quotes = [
-            "Success is the sum of small efforts repeated day in and day out.",
-            "Your future is created by what you do today, not tomorrow.",
-            "The expert in anything was once a beginner.",
-            "Study while others are sleeping; work while others are loafing.",
-            "Dream big, work hard, stay focused and surround yourself with good people.",
-            "The only way to do great work is to love what you do.",
-            "Success doesn't come from what you do occasionally, it comes from what you do consistently.",
-            "Believe you can and you're halfway there.",
-            "The harder you work for something, the greater you'll feel when you achieve it."
-        ];
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div>
+                            <div class="stat-label">Study Time</div>
+                        </div>
+                        <div class="stat-icon warning">⏱️</div>
+                    </div>
+                    <div class="stat-value" id="studyTime">0h 0m</div>
+                    <div class="stat-change positive">
+                        <span>↑</span>
+                        <span id="timeThisWeek">0h</span>
+                        <span style="color: var(--text-secondary);">this week</span>
+                    </div>
+                </div>
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeCountdown();
-            renderAllSubjects();
-            updateAllStats();
-            loadNotes();
-            rotateQuote();
-            setInterval(rotateQuote, 30000); // Change quote every 30 seconds
-        });
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div>
+                            <div class="stat-label">Current Streak</div>
+                        </div>
+                        <div class="stat-icon accent">🔥</div>
+                    </div>
+                    <div class="stat-value" id="studyStreak">0</div>
+                    <div class="stat-change">
+                        <span style="color: var(--text-secondary);">days in a row</span>
+                    </div>
+                </div>
+            </div>
 
-        // Countdown Timer
-        function initializeCountdown() {
-            const examDate = new Date('2026-05-03T09:00:00');
+            <!-- Countdown -->
+            <div class="countdown-section">
+                <div class="countdown-header">
+                    <h3>⏰ Countdown to NEET 2026</h3>
+                    <p>Expected Exam Date: May 3, 2026</p>
+                </div>
+                <div class="countdown-timer">
+                    <div class="time-box">
+                        <span class="time-value" id="days">000</span>
+                        <span class="time-label">Days</span>
+                    </div>
+                    <div class="time-box">
+                        <span class="time-value" id="hours">00</span>
+                        <span class="time-label">Hours</span>
+                    </div>
+                    <div class="time-box">
+                        <span class="time-value" id="minutes">00</span>
+                        <span class="time-label">Minutes</span>
+                    </div>
+                    <div class="time-box">
+                        <span class="time-value" id="seconds">00</span>
+                        <span class="time-label">Seconds</span>
+                    </div>
+                </div>
+            </div>
 
-            function updateCountdown() {
-                const now = new Date();
-                const diff = examDate - now;
+            <!-- Progress Rings -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📚 Subject Progress</h3>
+                    <span class="card-action" onclick="showView('subjects')">View All →</span>
+                </div>
+                <div class="progress-rings">
+                    <div class="ring-container">
+                        <div class="circular-progress">
+                            <svg width="140" height="140">
+                                <defs>
+                                    <linearGradient id="gradient-physics">
+                                        <stop offset="0%" stop-color="#6366f1"/>
+                                        <stop offset="100%" stop-color="#8b5cf6"/>
+                                    </linearGradient>
+                                </defs>
+                                <circle class="circle-bg" cx="70" cy="70" r="60"/>
+                                <circle class="circle-progress" id="physics-circle" cx="70" cy="70" r="60"
+                                    stroke="url(#gradient-physics)" stroke-dasharray="377" stroke-dashoffset="377"/>
+                            </svg>
+                            <div class="progress-value" id="physics-percent">0%</div>
+                        </div>
+                        <div class="subject-name">⚛️ Physics</div>
+                        <div class="subject-stats" id="physics-stats">0/0 topics</div>
+                    </div>
 
-                if (diff > 0) {
-                    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                    <div class="ring-container">
+                        <div class="circular-progress">
+                            <svg width="140" height="140">
+                                <circle class="circle-bg" cx="70" cy="70" r="60"/>
+                                <circle class="circle-progress" id="chemistry-circle" cx="70" cy="70" r="60"
+                                    stroke="url(#gradient-physics)" stroke-dasharray="377" stroke-dashoffset="377"/>
+                            </svg>
+                            <div class="progress-value" id="chemistry-percent">0%</div>
+                        </div>
+                        <div class="subject-name">🧪 Chemistry</div>
+                        <div class="subject-stats" id="chemistry-stats">0/0 topics</div>
+                    </div>
 
-                    document.getElementById('days').textContent = String(days).padStart(3, '0');
-                    document.getElementById('hours').textContent = String(hours).padStart(2, '0');
-                    document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
-                    document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
-                }
-            }
+                    <div class="ring-container">
+                        <div class="circular-progress">
+                            <svg width="140" height="140">
+                                <circle class="circle-bg" cx="70" cy="70" r="60"/>
+                                <circle class="circle-progress" id="biology-circle" cx="70" cy="70" r="60"
+                                    stroke="url(#gradient-physics)" stroke-dasharray="377" stroke-dashoffset="377"/>
+                            </svg>
+                            <div class="progress-value" id="biology-percent">0%</div>
+                        </div>
+                        <div class="subject-name">🧬 Biology</div>
+                        <div class="subject-stats" id="biology-stats">0/0 topics</div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-            updateCountdown();
-            setInterval(updateCountdown, 1000);
-        }
+        <!-- Subjects View -->
+        <div class="view-section" id="subjects-view">
+            <div class="top-bar">
+                <div class="welcome-section">
+                    <h2>📚 Syllabus Tracker</h2>
+                    <p>Track your progress across all subjects and topics</p>
+                </div>
+            </div>
 
-        // Render Subjects
-        function renderAllSubjects() {
-            renderSubject('physics', syllabusData.physics);
-            renderSubject('chemistry', syllabusData.chemistry);
-            renderSubject('biology', syllabusData.biology);
-        }
+            <div class="subjects-grid">
+                <!-- Physics Card -->
+                <div class="subject-card-new">
+                    <div class="subject-header-new">
+                        <div class="subject-title-row">
+                            <div class="subject-title-new">
+                                <span>⚛️</span>
+                                <span>Physics</span>
+                            </div>
+                            <span id="physics-count">0/0</span>
+                        </div>
+                        <div class="search-filter-row">
+                            <input type="text" class="search-input" placeholder="Search topics..."
+                                onkeyup="searchTopics('physics', this.value)">
+                        </div>
+                        <div class="filter-chips">
+                            <button class="chip active" onclick="filterTopics('physics', 'all', event)">All</button>
+                            <button class="chip" onclick="filterTopics('physics', 'completed', event)">Completed</button>
+                            <button class="chip" onclick="filterTopics('physics', 'pending', event)">Pending</button>
+                        </div>
+                    </div>
+                    <div class="subject-content" id="physics-content"></div>
+                </div>
 
-        function renderSubject(subject, data) {
-            const container = document.getElementById(`${subject}Topics`);
-            container.innerHTML = '';
+                <!-- Chemistry Card -->
+                <div class="subject-card-new">
+                    <div class="subject-header-new">
+                        <div class="subject-title-row">
+                            <div class="subject-title-new">
+                                <span>🧪</span>
+                                <span>Chemistry</span>
+                            </div>
+                            <span id="chemistry-count">0/0</span>
+                        </div>
+                        <div class="search-filter-row">
+                            <input type="text" class="search-input" placeholder="Search topics..."
+                                onkeyup="searchTopics('chemistry', this.value)">
+                        </div>
+                        <div class="filter-chips">
+                            <button class="chip active" onclick="filterTopics('chemistry', 'all', event)">All</button>
+                            <button class="chip" onclick="filterTopics('chemistry', 'completed', event)">Completed</button>
+                            <button class="chip" onclick="filterTopics('chemistry', 'pending', event)">Pending</button>
+                        </div>
+                    </div>
+                    <div class="subject-content" id="chemistry-content"></div>
+                </div>
 
-            for (const [chapter, topics] of Object.entries(data)) {
-                const chapterDiv = document.createElement('div');
-                chapterDiv.className = 'chapter';
+                <!-- Biology Card -->
+                <div class="subject-card-new">
+                    <div class="subject-header-new">
+                        <div class="subject-title-row">
+                            <div class="subject-title-new">
+                                <span>🧬</span>
+                                <span>Biology</span>
+                            </div>
+                            <span id="biology-count">0/0</span>
+                        </div>
+                        <div class="search-filter-row">
+                            <input type="text" class="search-input" placeholder="Search topics..."
+                                onkeyup="searchTopics('biology', this.value)">
+                        </div>
+                        <div class="filter-chips">
+                            <button class="chip active" onclick="filterTopics('biology', 'all', event)">All</button>
+                            <button class="chip" onclick="filterTopics('biology', 'completed', event)">Completed</button>
+                            <button class="chip" onclick="filterTopics('biology', 'pending', event)">Pending</button>
+                        </div>
+                    </div>
+                    <div class="subject-content" id="biology-content"></div>
+                </div>
+            </div>
+        </div>
 
-                const chapterTitle = document.createElement('div');
-                chapterTitle.className = 'chapter-title';
+        <!-- Timer View -->
+        <div class="view-section" id="timer-view">
+            <div class="top-bar">
+                <div class="welcome-section">
+                    <h2>⏱️ Study Timer</h2>
+                    <p>Focus and track your study sessions</p>
+                </div>
+            </div>
 
-                const completedTopics = topics.filter(topic =>
-                    progress[subject][`${chapter}::${topic}`]
-                ).length;
+            <div class="content-grid" style="grid-template-columns: 1fr;">
+                <div class="card timer-card">
+                    <div class="timer-display-large" id="timer-display">25:00</div>
 
-                chapterTitle.innerHTML = `
-                    <span>${chapter}</span>
-                    <span class="chapter-progress">${completedTopics}/${topics.length}</span>
-                `;
+                    <div class="timer-modes">
+                        <button class="mode-btn active" onclick="setTimerMode('pomodoro')">Pomodoro (25m)</button>
+                        <button class="mode-btn" onclick="setTimerMode('short')">Short Break (5m)</button>
+                        <button class="mode-btn" onclick="setTimerMode('long')">Long Break (15m)</button>
+                        <button class="mode-btn" onclick="setTimerMode('custom')">Custom</button>
+                    </div>
 
-                const topicsList = document.createElement('div');
+                    <div class="timer-controls">
+                        <button class="control-btn play" onclick="startTimer()">
+                            <span>▶️</span>
+                            <span>Start</span>
+                        </button>
+                        <button class="control-btn pause" onclick="pauseTimer()">
+                            <span>⏸️</span>
+                            <span>Pause</span>
+                        </button>
+                        <button class="control-btn reset" onclick="resetTimer()">
+                            <span>🔄</span>
+                            <span>Reset</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                topics.forEach(topic => {
-                    const topicKey = `${chapter}::${topic}`;
-                    const isCompleted = progress[subject][topicKey] || false;
+        <!-- Goals View -->
+        <div class="view-section" id="goals-view">
+            <div class="top-bar">
+                <div class="welcome-section">
+                    <h2>🎯 Daily Goals</h2>
+                    <p>Set and achieve your daily study targets</p>
+                </div>
+                <div class="quick-actions">
+                    <button class="action-btn btn-primary" onclick="addGoal()">
+                        <span>➕</span>
+                        <span>Add Goal</span>
+                    </button>
+                </div>
+            </div>
 
-                    const topicDiv = document.createElement('div');
-                    topicDiv.className = `topic-item ${isCompleted ? 'completed' : ''}`;
-                    topicDiv.dataset.chapter = chapter;
-                    topicDiv.dataset.topic = topic;
+            <div class="card">
+                <div class="goals-list" id="goals-list">
+                    <div class="goal-item">
+                        <div class="goal-header">
+                            <span class="goal-title">Complete 5 Physics topics</span>
+                            <span style="color: var(--text-secondary); font-size: 0.875rem;">0/5</span>
+                        </div>
+                        <div class="goal-progress-bar">
+                            <div class="goal-progress-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="goal-item">
+                        <div class="goal-header">
+                            <span class="goal-title">Study for 3 hours</span>
+                            <span style="color: var(--text-secondary); font-size: 0.875rem;">0h/3h</span>
+                        </div>
+                        <div class="goal-progress-bar">
+                            <div class="goal-progress-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                    const checkbox = document.createElement('input');
-                    checkbox.type = 'checkbox';
-                    checkbox.checked = isCompleted;
-                    checkbox.id = `${subject}-${topicKey}`;
-                    checkbox.onchange = () => toggleTopic(subject, chapter, topic, checkbox.checked);
+        <!-- Achievements View -->
+        <div class="view-section" id="achievements-view">
+            <div class="top-bar">
+                <div class="welcome-section">
+                    <h2>🏆 Achievements</h2>
+                    <p>Unlock achievements as you progress</p>
+                </div>
+            </div>
 
-                    const label = document.createElement('label');
-                    label.htmlFor = `${subject}-${topicKey}`;
-                    label.textContent = topic;
+            <div class="card">
+                <div class="achievements-grid">
+                    <div class="achievement" id="achievement-first-topic">
+                        <div class="achievement-icon">🎯</div>
+                        <div class="achievement-name">First Topic</div>
+                    </div>
+                    <div class="achievement" id="achievement-10-topics">
+                        <div class="achievement-icon">📚</div>
+                        <div class="achievement-name">10 Topics</div>
+                    </div>
+                    <div class="achievement" id="achievement-50-topics">
+                        <div class="achievement-icon">🌟</div>
+                        <div class="achievement-name">50 Topics</div>
+                    </div>
+                    <div class="achievement" id="achievement-100-topics">
+                        <div class="achievement-icon">💫</div>
+                        <div class="achievement-name">100 Topics</div>
+                    </div>
+                    <div class="achievement" id="achievement-7-day-streak">
+                        <div class="achievement-icon">🔥</div>
+                        <div class="achievement-name">7 Day Streak</div>
+                    </div>
+                    <div class="achievement" id="achievement-30-day-streak">
+                        <div class="achievement-icon">🚀</div>
+                        <div class="achievement-name">30 Day Streak</div>
+                    </div>
+                    <div class="achievement" id="achievement-physics-complete">
+                        <div class="achievement-icon">⚛️</div>
+                        <div class="achievement-name">Physics Master</div>
+                    </div>
+                    <div class="achievement" id="achievement-chemistry-complete">
+                        <div class="achievement-icon">🧪</div>
+                        <div class="achievement-name">Chemistry Pro</div>
+                    </div>
+                    <div class="achievement" id="achievement-biology-complete">
+                        <div class="achievement-icon">🧬</div>
+                        <div class="achievement-name">Biology Expert</div>
+                    </div>
+                    <div class="achievement" id="achievement-50-hours">
+                        <div class="achievement-icon">⏰</div>
+                        <div class="achievement-name">50 Hour Club</div>
+                    </div>
+                    <div class="achievement" id="achievement-100-hours">
+                        <div class="achievement-icon">⚡</div>
+                        <div class="achievement-name">100 Hour Club</div>
+                    </div>
+                    <div class="achievement" id="achievement-all-complete">
+                        <div class="achievement-icon">👑</div>
+                        <div class="achievement-name">Champion</div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                    topicDiv.appendChild(checkbox);
-                    topicDiv.appendChild(label);
-                    topicsList.appendChild(topicDiv);
-                });
+        <!-- Notes View -->
+        <div class="view-section" id="notes-view">
+            <div class="top-bar">
+                <div class="welcome-section">
+                    <h2>📝 Study Notes</h2>
+                    <p>Keep track of important concepts and formulas</p>
+                </div>
+                <div class="quick-actions">
+                    <button class="action-btn btn-primary" onclick="saveNotes()">
+                        <span>💾</span>
+                        <span>Save Notes</span>
+                    </button>
+                </div>
+            </div>
 
-                chapterDiv.appendChild(chapterTitle);
-                chapterDiv.appendChild(topicsList);
-                container.appendChild(chapterDiv);
-            }
-        }
+            <div class="card">
+                <textarea id="notes-textarea" style="width: 100%; min-height: 500px; background: var(--bg-secondary);
+                    border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; color: var(--text-primary);
+                    font-family: 'Inter', sans-serif; font-size: 1rem; resize: vertical;"
+                    placeholder="Write your study notes here..."></textarea>
+            </div>
+        </div>
 
-        // Toggle Topic
-        function toggleTopic(subject, chapter, topic, isCompleted) {
-            const topicKey = `${chapter}::${topic}`;
-            progress[subject][topicKey] = isCompleted;
+        <!-- Analytics View -->
+        <div class="view-section" id="analytics-view">
+            <div class="top-bar">
+                <div class="welcome-section">
+                    <h2>📈 Analytics</h2>
+                    <p>Track your study patterns and performance</p>
+                </div>
+            </div>
 
-            localStorage.setItem('neetProgress', JSON.stringify(progress));
-            updateAllStats();
-            renderSubject(subject, syllabusData[subject]);
-        }
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div>
+                            <div class="stat-label">Average Study Time/Day</div>
+                        </div>
+                        <div class="stat-icon primary">📊</div>
+                    </div>
+                    <div class="stat-value" id="avg-study-time">0h 0m</div>
+                </div>
 
-        // Update Statistics
-        function updateAllStats() {
-            let totalTopics = 0;
-            let completedTopics = 0;
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div>
+                            <div class="stat-label">Most Productive Subject</div>
+                        </div>
+                        <div class="stat-icon success">🎯</div>
+                    </div>
+                    <div class="stat-value" id="best-subject" style="font-size: 1.5rem;">-</div>
+                </div>
 
-            ['physics', 'chemistry', 'biology'].forEach(subject => {
-                let subjectTotal = 0;
-                let subjectCompleted = 0;
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div>
+                            <div class="stat-label">Topics This Month</div>
+                        </div>
+                        <div class="stat-icon warning">📚</div>
+                    </div>
+                    <div class="stat-value" id="topics-month">0</div>
+                </div>
 
-                Object.values(syllabusData[subject]).forEach(topics => {
-                    subjectTotal += topics.length;
-                    topics.forEach(topic => {
-                        const chapter = Object.keys(syllabusData[subject]).find(ch =>
-                            syllabusData[subject][ch].includes(topic)
-                        );
-                        const topicKey = `${chapter}::${topic}`;
-                        if (progress[subject][topicKey]) {
-                            subjectCompleted++;
-                        }
-                    });
-                });
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div>
+                            <div class="stat-label">Days Until Exam</div>
+                        </div>
+                        <div class="stat-icon accent">⏰</div>
+                    </div>
+                    <div class="stat-value" id="days-until-exam">000</div>
+                </div>
+            </div>
+        </div>
+    </main>
 
-                totalTopics += subjectTotal;
-                completedTopics += subjectCompleted;
-
-                const percentage = subjectTotal > 0 ? Math.round((subjectCompleted / subjectTotal) * 100) : 0;
-                document.getElementById(`${subject}Progress`).style.width = `${percentage}%`;
-                document.getElementById(`${subject}Progress`).textContent = `${percentage}%`;
-                document.getElementById(`${subject}Count`).textContent = `${subjectCompleted}/${subjectTotal}`;
-            });
-
-            const overallPercentage = totalTopics > 0 ? Math.round((completedTopics / totalTopics) * 100) : 0;
-            document.getElementById('overallProgress').textContent = `${overallPercentage}%`;
-            document.getElementById('totalTopics').textContent = `${completedTopics}/${totalTopics}`;
-
-            // Update study time
-            const hours = Math.floor(studyStats.totalStudyTime / 3600);
-            const minutes = Math.floor((studyStats.totalStudyTime % 3600) / 60);
-            document.getElementById('studyTime').textContent = `${hours}h ${minutes}m`;
-
-            // Update streak
-            updateStreak();
-            document.getElementById('studyStreak').textContent = studyStats.streak;
-        }
-
-        // Update Streak
-        function updateStreak() {
-            const today = new Date().toDateString();
-            const lastStudy = studyStats.lastStudyDate;
-
-            if (lastStudy === today) {
-                // Already studied today
-                return;
-            }
-
-            if (lastStudy) {
-                const lastDate = new Date(lastStudy);
-                const currentDate = new Date(today);
-                const diffTime = currentDate - lastDate;
-                const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-
-                if (diffDays === 1) {
-                    // Consecutive day
-                    studyStats.streak++;
-                } else if (diffDays > 1) {
-                    // Streak broken
-                    studyStats.streak = 1;
-                }
-            } else {
-                studyStats.streak = 1;
-            }
-
-            studyStats.lastStudyDate = today;
-            localStorage.setItem('neetStudyStats', JSON.stringify(studyStats));
-        }
-
-        // Study Timer Functions
-        function startStudyTimer() {
-            if (!isStudyTimerRunning) {
-                if (studyTimerSeconds === 0) {
-                    const minutes = parseInt(document.getElementById('sessionMinutes').value) || 25;
-                    studyTimerSeconds = minutes * 60;
-                }
-
-                isStudyTimerRunning = true;
-                studyTimerInterval = setInterval(() => {
-                    if (studyTimerSeconds > 0) {
-                        studyTimerSeconds--;
-                        updateStudyTimerDisplay();
-
-                        // Save every minute
-                        if (studyTimerSeconds % 60 === 0) {
-                            studyStats.totalStudyTime += 60;
-                            localStorage.setItem('neetStudyStats', JSON.stringify(studyStats));
-                            updateAllStats();
-                        }
-                    } else {
-                        pauseStudyTimer();
-                        alert('⏰ Study session completed! Great work!');
-                    }
-                }, 1000);
-            }
-        }
-
-        function pauseStudyTimer() {
-            isStudyTimerRunning = false;
-            if (studyTimerInterval) {
-                clearInterval(studyTimerInterval);
-                studyTimerInterval = null;
-            }
-        }
-
-        function resetStudyTimer() {
-            pauseStudyTimer();
-            studyTimerSeconds = 0;
-            updateStudyTimerDisplay();
-        }
-
-        function updateStudyTimerDisplay() {
-            const hours = Math.floor(studyTimerSeconds / 3600);
-            const minutes = Math.floor((studyTimerSeconds % 3600) / 60);
-            const seconds = studyTimerSeconds % 60;
-
-            document.getElementById('studyTimerDisplay').textContent =
-                `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-        }
-
-        // Search Topics
-        function searchTopics(subject, query) {
-            const container = document.getElementById(`${subject}Topics`);
-            const chapters = container.querySelectorAll('.chapter');
-
-            chapters.forEach(chapter => {
-                const topics = chapter.querySelectorAll('.topic-item');
-                let hasVisibleTopic = false;
-
-                topics.forEach(topic => {
-                    const label = topic.querySelector('label').textContent.toLowerCase();
-                    if (label.includes(query.toLowerCase())) {
-                        topic.style.display = 'flex';
-                        hasVisibleTopic = true;
-                    } else {
-                        topic.style.display = 'none';
-                    }
-                });
-
-                chapter.style.display = hasVisibleTopic ? 'block' : 'none';
-            });
-        }
-
-        // Filter Topics
-        function filterTopics(subject, filter) {
-            const container = document.getElementById(`${subject}Topics`);
-            const topics = container.querySelectorAll('.topic-item');
-            const buttons = container.previousElementSibling.querySelectorAll('.filter-btn');
-
-            buttons.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-
-            topics.forEach(topic => {
-                const isCompleted = topic.classList.contains('completed');
-
-                if (filter === 'all') {
-                    topic.style.display = 'flex';
-                } else if (filter === 'completed' && isCompleted) {
-                    topic.style.display = 'flex';
-                } else if (filter === 'pending' && !isCompleted) {
-                    topic.style.display = 'flex';
-                } else {
-                    topic.style.display = 'none';
-                }
-            });
-        }
-
-        // Notes Functions
-        function saveNotes() {
-            const notes = document.getElementById('studyNotes').value;
-            localStorage.setItem('neetStudyNotes', notes);
-            alert('📝 Notes saved successfully!');
-        }
-
-        function loadNotes() {
-            const notes = localStorage.getItem('neetStudyNotes') || '';
-            document.getElementById('studyNotes').value = notes;
-        }
-
-        // Rotate Quote
-        function rotateQuote() {
-            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-            document.getElementById('quote').textContent = `"${randomQuote}"`;
-        }
-
-        // Auto-save notes every 30 seconds
-        setInterval(() => {
-            const notes = document.getElementById('studyNotes').value;
-            if (notes) {
-                localStorage.setItem('neetStudyNotes', notes);
-            }
-        }, 30000);
-    </script>
+    <script src="app.js"></script>
 </body>
 </html>
