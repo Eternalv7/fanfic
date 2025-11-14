@@ -3,937 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEET 2026 Tracker - Premium Study Dashboard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --primary-light: #818cf8;
-            --secondary: #8b5cf6;
-            --accent: #ec4899;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --info: #06b6d4;
-            --dark: #1e293b;
-            --dark-light: #334155;
-            --gray: #64748b;
-            --gray-light: #94a3b8;
-            --bg-primary: #0f172a;
-            --bg-secondary: #1e293b;
-            --bg-card: #1e293b;
-            --text-primary: #f1f5f9;
-            --text-secondary: #cbd5e1;
-            --border: #334155;
-            --shadow: rgba(0, 0, 0, 0.3);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        /* Animated Background */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background:
-                radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 20%, rgba(236, 72, 153, 0.1) 0%, transparent 50%);
-            z-index: -1;
-            animation: backgroundShift 20s ease infinite;
-        }
-
-        @keyframes backgroundShift {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.8; }
-        }
-
-        /* Sidebar */
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 280px;
-            height: 100vh;
-            background: var(--bg-card);
-            border-right: 1px solid var(--border);
-            padding: 2rem 0;
-            overflow-y: auto;
-            z-index: 100;
-            transition: transform 0.3s ease;
-        }
-
-        .sidebar::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .sidebar::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .sidebar::-webkit-scrollbar-thumb {
-            background: var(--border);
-            border-radius: 10px;
-        }
-
-        .logo {
-            padding: 0 2rem 2rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .logo h1 {
-            font-size: 1.5rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .logo p {
-            font-size: 0.75rem;
-            color: var(--gray-light);
-            margin-top: 0.25rem;
-        }
-
-        .nav-menu {
-            padding: 1.5rem 0;
-        }
-
-        .nav-item {
-            padding: 0.75rem 2rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            color: var(--text-secondary);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border-left: 3px solid transparent;
-        }
-
-        .nav-item:hover {
-            background: rgba(99, 102, 241, 0.1);
-            color: var(--primary-light);
-        }
-
-        .nav-item.active {
-            background: rgba(99, 102, 241, 0.15);
-            color: var(--primary-light);
-            border-left-color: var(--primary);
-        }
-
-        .nav-icon {
-            font-size: 1.25rem;
-            width: 24px;
-            text-align: center;
-        }
-
-        /* Main Content */
-        .main-content {
-            margin-left: 280px;
-            padding: 2rem;
-            min-height: 100vh;
-        }
-
-        .top-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .welcome-section h2 {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-
-        .welcome-section p {
-            color: var(--text-secondary);
-        }
-
-        .quick-actions {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .action-btn {
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 0.875rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
-        }
-
-        .btn-secondary {
-            background: var(--bg-card);
-            color: var(--text-primary);
-            border: 1px solid var(--border);
-        }
-
-        .btn-secondary:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        /* Stats Grid */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 1.5rem;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: linear-gradient(180deg, var(--primary), var(--secondary));
-        }
-
-        .stat-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px var(--shadow);
-            border-color: var(--primary);
-        }
-
-        .stat-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 1rem;
-        }
-
-        .stat-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-        }
-
-        .stat-icon.primary { background: rgba(99, 102, 241, 0.15); color: var(--primary-light); }
-        .stat-icon.success { background: rgba(16, 185, 129, 0.15); color: var(--success); }
-        .stat-icon.warning { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
-        .stat-icon.accent { background: rgba(236, 72, 153, 0.15); color: var(--accent); }
-
-        .stat-label {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-
-        .stat-value {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-change {
-            font-size: 0.875rem;
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-        }
-
-        .stat-change.positive { color: var(--success); }
-        .stat-change.negative { color: var(--danger); }
-
-        /* Countdown Timer */
-        .countdown-section {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 20px;
-            padding: 2.5rem;
-            margin-bottom: 2rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .countdown-section::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -10%;
-            width: 300px;
-            height: 300px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-        }
-
-        .countdown-header {
-            text-align: center;
-            margin-bottom: 2rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        .countdown-header h3 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-            color: white;
-        }
-
-        .countdown-header p {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 1rem;
-        }
-
-        .countdown-timer {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1.5rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        .time-box {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border-radius: 16px;
-            padding: 1.5rem;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .time-value {
-            font-size: 3rem;
-            font-weight: 800;
-            color: white;
-            display: block;
-            line-height: 1;
-        }
-
-        .time-label {
-            font-size: 0.875rem;
-            color: rgba(255, 255, 255, 0.8);
-            margin-top: 0.5rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* Content Grid */
-        .content-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 1.5rem;
-            transition: all 0.3s ease;
-        }
-
-        .card:hover {
-            box-shadow: 0 10px 30px var(--shadow);
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .card-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .card-action {
-            color: var(--primary-light);
-            font-size: 0.875rem;
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-
-        .card-action:hover {
-            color: var(--primary);
-        }
-
-        /* Progress Rings */
-        .progress-rings {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            margin: 2rem 0;
-        }
-
-        .ring-container {
-            text-align: center;
-        }
-
-        .circular-progress {
-            width: 140px;
-            height: 140px;
-            margin: 0 auto 1rem;
-            position: relative;
-        }
-
-        .circular-progress svg {
-            transform: rotate(-90deg);
-        }
-
-        .circular-progress circle {
-            fill: none;
-            stroke-width: 8;
-        }
-
-        .circle-bg {
-            stroke: var(--border);
-        }
-
-        .circle-progress {
-            stroke: url(#gradient);
-            stroke-linecap: round;
-            transition: stroke-dashoffset 1s ease;
-        }
-
-        .progress-value {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 1.75rem;
-            font-weight: 700;
-        }
-
-        .subject-name {
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .subject-stats {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-        }
-
-        /* Study Timer Card */
-        .timer-card {
-            text-align: center;
-        }
-
-        .timer-display-large {
-            font-size: 4rem;
-            font-weight: 800;
-            font-family: 'Courier New', monospace;
-            margin: 2rem 0;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .timer-modes {
-            display: flex;
-            gap: 0.5rem;
-            justify-content: center;
-            margin-bottom: 2rem;
-        }
-
-        .mode-btn {
-            padding: 0.5rem 1rem;
-            border: 1px solid var(--border);
-            background: transparent;
-            color: var(--text-secondary);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.875rem;
-        }
-
-        .mode-btn.active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-
-        .timer-controls {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-        }
-
-        .control-btn {
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .control-btn.play {
-            background: linear-gradient(135deg, var(--success), #059669);
-            color: white;
-        }
-
-        .control-btn.pause {
-            background: linear-gradient(135deg, var(--warning), #d97706);
-            color: white;
-        }
-
-        .control-btn.reset {
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-            border: 1px solid var(--border);
-        }
-
-        /* Achievements */
-        .achievements-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 1rem;
-        }
-
-        .achievement {
-            text-align: center;
-            padding: 1rem;
-            border-radius: 12px;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            transition: all 0.3s ease;
-        }
-
-        .achievement.unlocked {
-            border-color: var(--primary);
-            background: rgba(99, 102, 241, 0.1);
-        }
-
-        .achievement:hover {
-            transform: translateY(-4px);
-        }
-
-        .achievement-icon {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-            filter: grayscale(100%);
-            opacity: 0.5;
-        }
-
-        .achievement.unlocked .achievement-icon {
-            filter: grayscale(0%);
-            opacity: 1;
-        }
-
-        .achievement-name {
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-
-        /* Subject Cards */
-        .subjects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .subject-card-new {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .subject-card-new:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px var(--shadow);
-        }
-
-        .subject-header-new {
-            padding: 1.5rem;
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
-            border-bottom: 1px solid var(--border);
-        }
-
-        .subject-title-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .subject-title-new {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-size: 1.5rem;
-            font-weight: 700;
-        }
-
-        .search-filter-row {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .search-input {
-            flex: 1;
-            padding: 0.75rem 1rem;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            color: var(--text-primary);
-            font-size: 0.875rem;
-        }
-
-        .search-input:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
-        .filter-chips {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .chip {
-            padding: 0.5rem 1rem;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            font-size: 0.75rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .chip.active {
-            background: var(--primary);
-            border-color: var(--primary);
-            color: white;
-        }
-
-        .subject-content {
-            padding: 1.5rem;
-            max-height: 500px;
-            overflow-y: auto;
-        }
-
-        .subject-content::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .subject-content::-webkit-scrollbar-thumb {
-            background: var(--border);
-            border-radius: 10px;
-        }
-
-        .chapter-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .chapter-header-new {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem;
-            background: var(--bg-secondary);
-            border-radius: 8px;
-            cursor: pointer;
-            margin-bottom: 0.75rem;
-            transition: all 0.3s ease;
-        }
-
-        .chapter-header-new:hover {
-            background: rgba(99, 102, 241, 0.1);
-        }
-
-        .chapter-name {
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .chapter-stats {
-            color: var(--text-secondary);
-            font-size: 0.875rem;
-        }
-
-        .topics-list-new {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .topic-item-new {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 0.75rem 1rem;
-            background: var(--bg-secondary);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .topic-item-new:hover {
-            background: rgba(99, 102, 241, 0.1);
-        }
-
-        .custom-checkbox {
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--border);
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-
-        .topic-item-new.completed .custom-checkbox {
-            background: var(--primary);
-            border-color: var(--primary);
-        }
-
-        .topic-label {
-            flex: 1;
-            color: var(--text-primary);
-        }
-
-        .topic-item-new.completed .topic-label {
-            text-decoration: line-through;
-            color: var(--text-secondary);
-        }
-
-        /* Daily Goals */
-        .goals-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .goal-item {
-            padding: 1rem;
-            background: var(--bg-secondary);
-            border-radius: 12px;
-            border-left: 3px solid var(--primary);
-        }
-
-        .goal-header {
-            display: flex;
-            justify-content: between;
-            align-items: center;
-            margin-bottom: 0.5rem;
-        }
-
-        .goal-title {
-            font-weight: 600;
-        }
-
-        .goal-progress-bar {
-            height: 6px;
-            background: var(--border);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .goal-progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-            transition: width 0.3s ease;
-        }
-
-        /* Mobile Menu Toggle */
-        .menu-toggle {
-            display: none;
-            position: fixed;
-            top: 1rem;
-            left: 1rem;
-            z-index: 1000;
-            padding: 0.75rem;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            cursor: pointer;
-        }
-
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .content-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .subjects-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .progress-rings {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%);
-            }
-
-            .sidebar.active {
-                transform: translateX(0);
-            }
-
-            .main-content {
-                margin-left: 0;
-                padding: 1rem;
-            }
-
-            .menu-toggle {
-                display: block;
-            }
-
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .countdown-timer {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .time-value {
-                font-size: 2rem;
-            }
-
-            .timer-display-large {
-                font-size: 2.5rem;
-            }
-
-            .top-bar {
-                margin-top: 3rem;
-            }
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .fade-in {
-            animation: fadeIn 0.5s ease;
-        }
-
-        /* View Sections */
-        .view-section {
-            display: none;
-        }
-
-        .view-section.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-    </style>
+    <title>NEET 2026 Tracker - Ultimate Study Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body data-theme="dark">
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loader">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading NEET 2026 Tracker...</div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Confetti Canvas -->
+    <canvas id="confettiCanvas"></canvas>
+
+    <!-- Command Palette -->
+    <div class="command-palette-overlay" id="commandPaletteOverlay">
+        <div class="command-palette">
+            <div class="command-search">
+                <span class="command-icon">🔍</span>
+                <input type="text" id="commandInput" placeholder="Type a command or search..." autocomplete="off">
+                <span class="command-hint">ESC to close</span>
+            </div>
+            <div class="command-results" id="commandResults"></div>
+        </div>
+    </div>
+
     <!-- Mobile Menu Toggle -->
-    <div class="menu-toggle" onclick="toggleSidebar()">
-        <span style="font-size: 1.5rem;">☰</span>
+    <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <!-- Floating Action Button -->
+    <div class="fab-container" id="fabContainer">
+        <button class="fab-button" onclick="toggleFAB()" aria-label="Quick actions">
+            <span class="fab-icon">➕</span>
+        </button>
+        <div class="fab-actions" id="fabActions">
+            <button class="fab-action" onclick="quickStartTimer()" title="Quick Start Timer">
+                <span>⏱️</span>
+                <span class="fab-label">Start Timer</span>
+            </button>
+            <button class="fab-action" onclick="showView('subjects')" title="Add Topic">
+                <span>📚</span>
+                <span class="fab-label">Track Topic</span>
+            </button>
+            <button class="fab-action" onclick="quickAddNote()" title="Quick Note">
+                <span>📝</span>
+                <span class="fab-label">Quick Note</span>
+            </button>
+            <button class="fab-action" onclick="showView('goals')" title="Add Goal">
+                <span>🎯</span>
+                <span class="fab-label">New Goal</span>
+            </button>
+        </div>
     </div>
 
     <!-- Sidebar -->
     <aside class="sidebar" id="sidebar">
         <div class="logo">
-            <h1>NEET 2026</h1>
-            <p>Study Dashboard</p>
+            <div class="logo-icon">🎯</div>
+            <div class="logo-content">
+                <h1>NEET 2026</h1>
+                <p>Ultimate Study Dashboard</p>
+            </div>
         </div>
+
+        <!-- User Stats Widget -->
+        <div class="sidebar-widget">
+            <div class="widget-stat">
+                <span class="widget-icon">🔥</span>
+                <div class="widget-content">
+                    <div class="widget-value" id="sidebarStreak">0</div>
+                    <div class="widget-label">Day Streak</div>
+                </div>
+            </div>
+            <div class="widget-stat">
+                <span class="widget-icon">⚡</span>
+                <div class="widget-content">
+                    <div class="widget-value" id="sidebarProgress">0%</div>
+                    <div class="widget-label">Complete</div>
+                </div>
+            </div>
+        </div>
+
         <nav class="nav-menu">
-            <div class="nav-item active" onclick="showView('dashboard')">
+            <div class="nav-item active" onclick="showView('dashboard')" data-view="dashboard">
                 <span class="nav-icon">📊</span>
                 <span>Dashboard</span>
+                <span class="nav-badge" id="navBadgeDashboard"></span>
             </div>
-            <div class="nav-item" onclick="showView('subjects')">
+            <div class="nav-item" onclick="showView('subjects')" data-view="subjects">
                 <span class="nav-icon">📚</span>
                 <span>Subjects</span>
+                <span class="nav-badge" id="navBadgeSubjects"></span>
             </div>
-            <div class="nav-item" onclick="showView('timer')">
+            <div class="nav-item" onclick="showView('timer')" data-view="timer">
                 <span class="nav-icon">⏱️</span>
                 <span>Study Timer</span>
+                <span class="nav-timer-indicator" id="navTimerIndicator"></span>
             </div>
-            <div class="nav-item" onclick="showView('analytics')">
+            <div class="nav-item" onclick="showView('calendar')" data-view="calendar">
+                <span class="nav-icon">📅</span>
+                <span>Calendar</span>
+            </div>
+            <div class="nav-item" onclick="showView('analytics')" data-view="analytics">
                 <span class="nav-icon">📈</span>
                 <span>Analytics</span>
             </div>
-            <div class="nav-item" onclick="showView('goals')">
+            <div class="nav-item" onclick="showView('goals')" data-view="goals">
                 <span class="nav-icon">🎯</span>
                 <span>Daily Goals</span>
             </div>
-            <div class="nav-item" onclick="showView('achievements')">
+            <div class="nav-item" onclick="showView('achievements')" data-view="achievements">
                 <span class="nav-icon">🏆</span>
                 <span>Achievements</span>
             </div>
-            <div class="nav-item" onclick="showView('notes')">
+            <div class="nav-item" onclick="showView('history')" data-view="history">
+                <span class="nav-icon">📖</span>
+                <span>History</span>
+            </div>
+            <div class="nav-item" onclick="showView('notes')" data-view="notes">
                 <span class="nav-icon">📝</span>
                 <span>Notes</span>
             </div>
+            <div class="nav-item" onclick="showView('settings')" data-view="settings">
+                <span class="nav-icon">⚙️</span>
+                <span>Settings</span>
+            </div>
         </nav>
+
+        <!-- Theme Switcher -->
+        <div class="theme-switcher">
+            <div class="theme-label">Theme</div>
+            <div class="theme-options">
+                <button class="theme-option active" data-theme="dark" onclick="switchTheme('dark')" title="Dark">
+                    🌙
+                </button>
+                <button class="theme-option" data-theme="light" onclick="switchTheme('light')" title="Light">
+                    ☀️
+                </button>
+                <button class="theme-option" data-theme="purple" onclick="switchTheme('purple')" title="Purple">
+                    💜
+                </button>
+                <button class="theme-option" data-theme="green" onclick="switchTheme('green')" title="Green">
+                    💚
+                </button>
+            </div>
+        </div>
     </aside>
 
     <!-- Main Content -->
@@ -942,120 +166,161 @@
         <div class="view-section active" id="dashboard-view">
             <div class="top-bar">
                 <div class="welcome-section">
-                    <h2>Welcome back, Aspirant!</h2>
-                    <p>Track your progress and stay on top of your NEET preparation</p>
+                    <h2>Welcome back, <span id="userName">Aspirant</span>! <span class="wave-emoji">👋</span></h2>
+                    <p id="motivationalMessage">Let's make today count!</p>
                 </div>
                 <div class="quick-actions">
                     <button class="action-btn btn-primary" onclick="showView('timer')">
                         <span>▶️</span>
                         <span>Start Studying</span>
                     </button>
+                    <button class="action-btn btn-secondary" onclick="toggleFocusMode()">
+                        <span>🎯</span>
+                        <span>Focus Mode</span>
+                    </button>
                     <button class="action-btn btn-secondary" onclick="exportData()">
                         <span>📥</span>
-                        <span>Export Data</span>
+                        <span>Export</span>
                     </button>
                 </div>
             </div>
 
-            <!-- Stats Grid -->
+            <!-- Quick Stats -->
             <div class="stats-grid">
-                <div class="stat-card">
+                <div class="stat-card" onclick="showView('subjects')">
                     <div class="stat-header">
                         <div>
                             <div class="stat-label">Overall Progress</div>
                         </div>
-                        <div class="stat-icon primary">📊</div>
+                        <div class="stat-icon primary">
+                            <div class="icon-circle">📊</div>
+                        </div>
                     </div>
                     <div class="stat-value" id="overallProgress">0%</div>
                     <div class="stat-change positive">
                         <span>↑</span>
                         <span id="progressChange">0%</span>
-                        <span style="color: var(--text-secondary);">this week</span>
+                        <span class="stat-period">this week</span>
                     </div>
+                    <div class="stat-sparkline" id="progressSparkline"></div>
                 </div>
 
-                <div class="stat-card">
+                <div class="stat-card" onclick="showView('subjects')">
                     <div class="stat-header">
                         <div>
                             <div class="stat-label">Topics Completed</div>
                         </div>
-                        <div class="stat-icon success">✓</div>
+                        <div class="stat-icon success">
+                            <div class="icon-circle">✓</div>
+                        </div>
                     </div>
                     <div class="stat-value" id="totalTopics">0/0</div>
                     <div class="stat-change positive">
                         <span>↑</span>
                         <span id="topicsThisWeek">0</span>
-                        <span style="color: var(--text-secondary);">this week</span>
+                        <span class="stat-period">this week</span>
+                    </div>
+                    <div class="stat-mini-chart">
+                        <div class="mini-bar" style="--height: 40%"></div>
+                        <div class="mini-bar" style="--height: 55%"></div>
+                        <div class="mini-bar" style="--height: 45%"></div>
+                        <div class="mini-bar" style="--height: 70%"></div>
+                        <div class="mini-bar" style="--height: 85%"></div>
                     </div>
                 </div>
 
-                <div class="stat-card">
+                <div class="stat-card" onclick="showView('timer')">
                     <div class="stat-header">
                         <div>
                             <div class="stat-label">Study Time</div>
                         </div>
-                        <div class="stat-icon warning">⏱️</div>
+                        <div class="stat-icon warning">
+                            <div class="icon-circle">⏱️</div>
+                        </div>
                     </div>
                     <div class="stat-value" id="studyTime">0h 0m</div>
                     <div class="stat-change positive">
                         <span>↑</span>
                         <span id="timeThisWeek">0h</span>
-                        <span style="color: var(--text-secondary);">this week</span>
+                        <span class="stat-period">this week</span>
+                    </div>
+                    <div class="stat-trend">
+                        <svg width="100%" height="30" preserveAspectRatio="none">
+                            <polyline class="trend-line" points="0,20 25,15 50,18 75,10 100,5" />
+                        </svg>
                     </div>
                 </div>
 
-                <div class="stat-card">
+                <div class="stat-card streak-card" onclick="showView('calendar')">
                     <div class="stat-header">
                         <div>
                             <div class="stat-label">Current Streak</div>
                         </div>
-                        <div class="stat-icon accent">🔥</div>
+                        <div class="stat-icon accent">
+                            <div class="icon-circle fire-icon">🔥</div>
+                        </div>
                     </div>
                     <div class="stat-value" id="studyStreak">0</div>
                     <div class="stat-change">
-                        <span style="color: var(--text-secondary);">days in a row</span>
+                        <span class="stat-period">days in a row</span>
+                    </div>
+                    <div class="streak-dots">
+                        <div class="streak-dot"></div>
+                        <div class="streak-dot"></div>
+                        <div class="streak-dot"></div>
+                        <div class="streak-dot active"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Countdown -->
+            <!-- Countdown Section -->
             <div class="countdown-section">
-                <div class="countdown-header">
-                    <h3>⏰ Countdown to NEET 2026</h3>
-                    <p>Expected Exam Date: May 3, 2026</p>
-                </div>
-                <div class="countdown-timer">
-                    <div class="time-box">
-                        <span class="time-value" id="days">000</span>
-                        <span class="time-label">Days</span>
+                <div class="countdown-bg"></div>
+                <div class="countdown-content">
+                    <div class="countdown-header">
+                        <h3>⏰ Countdown to NEET 2026</h3>
+                        <p>Expected Exam Date: May 3, 2026</p>
                     </div>
-                    <div class="time-box">
-                        <span class="time-value" id="hours">00</span>
-                        <span class="time-label">Hours</span>
-                    </div>
-                    <div class="time-box">
-                        <span class="time-value" id="minutes">00</span>
-                        <span class="time-label">Minutes</span>
-                    </div>
-                    <div class="time-box">
-                        <span class="time-value" id="seconds">00</span>
-                        <span class="time-label">Seconds</span>
+                    <div class="countdown-timer">
+                        <div class="time-box">
+                            <div class="time-value" id="days">000</div>
+                            <div class="time-label">Days</div>
+                            <div class="time-progress" style="--progress: 75%"></div>
+                        </div>
+                        <div class="time-separator">:</div>
+                        <div class="time-box">
+                            <div class="time-value" id="hours">00</div>
+                            <div class="time-label">Hours</div>
+                            <div class="time-progress" style="--progress: 50%"></div>
+                        </div>
+                        <div class="time-separator">:</div>
+                        <div class="time-box">
+                            <div class="time-value" id="minutes">00</div>
+                            <div class="time-label">Minutes</div>
+                            <div class="time-progress" style="--progress: 30%"></div>
+                        </div>
+                        <div class="time-separator">:</div>
+                        <div class="time-box">
+                            <div class="time-value" id="seconds">00</div>
+                            <div class="time-label">Seconds</div>
+                            <div class="time-progress" style="--progress: 10%"></div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Progress Rings -->
+            <!-- Subject Progress -->
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">📚 Subject Progress</h3>
-                    <span class="card-action" onclick="showView('subjects')">View All →</span>
+                    <button class="card-action" onclick="showView('subjects')">View All →</button>
                 </div>
                 <div class="progress-rings">
-                    <div class="ring-container">
+                    <div class="ring-container" onclick="showView('subjects')">
                         <div class="circular-progress">
                             <svg width="140" height="140">
                                 <defs>
-                                    <linearGradient id="gradient-physics">
+                                    <linearGradient id="gradient-physics" x1="0%" y1="0%" x2="100%" y2="100%">
                                         <stop offset="0%" stop-color="#6366f1"/>
                                         <stop offset="100%" stop-color="#8b5cf6"/>
                                     </linearGradient>
@@ -1068,333 +333,93 @@
                         </div>
                         <div class="subject-name">⚛️ Physics</div>
                         <div class="subject-stats" id="physics-stats">0/0 topics</div>
+                        <div class="subject-bar">
+                            <div class="subject-bar-fill" id="physics-bar" style="width: 0%"></div>
+                        </div>
                     </div>
 
-                    <div class="ring-container">
+                    <div class="ring-container" onclick="showView('subjects')">
                         <div class="circular-progress">
                             <svg width="140" height="140">
+                                <defs>
+                                    <linearGradient id="gradient-chemistry" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#ec4899"/>
+                                        <stop offset="100%" stop-color="#f43f5e"/>
+                                    </linearGradient>
+                                </defs>
                                 <circle class="circle-bg" cx="70" cy="70" r="60"/>
                                 <circle class="circle-progress" id="chemistry-circle" cx="70" cy="70" r="60"
-                                    stroke="url(#gradient-physics)" stroke-dasharray="377" stroke-dashoffset="377"/>
+                                    stroke="url(#gradient-chemistry)" stroke-dasharray="377" stroke-dashoffset="377"/>
                             </svg>
                             <div class="progress-value" id="chemistry-percent">0%</div>
                         </div>
                         <div class="subject-name">🧪 Chemistry</div>
                         <div class="subject-stats" id="chemistry-stats">0/0 topics</div>
+                        <div class="subject-bar">
+                            <div class="subject-bar-fill chemistry" id="chemistry-bar" style="width: 0%"></div>
+                        </div>
                     </div>
 
-                    <div class="ring-container">
+                    <div class="ring-container" onclick="showView('subjects')">
                         <div class="circular-progress">
                             <svg width="140" height="140">
+                                <defs>
+                                    <linearGradient id="gradient-biology" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#10b981"/>
+                                        <stop offset="100%" stop-color="#059669"/>
+                                    </linearGradient>
+                                </defs>
                                 <circle class="circle-bg" cx="70" cy="70" r="60"/>
                                 <circle class="circle-progress" id="biology-circle" cx="70" cy="70" r="60"
-                                    stroke="url(#gradient-physics)" stroke-dasharray="377" stroke-dashoffset="377"/>
+                                    stroke="url(#gradient-biology)" stroke-dasharray="377" stroke-dashoffset="377"/>
                             </svg>
                             <div class="progress-value" id="biology-percent">0%</div>
                         </div>
                         <div class="subject-name">🧬 Biology</div>
                         <div class="subject-stats" id="biology-stats">0/0 topics</div>
+                        <div class="subject-bar">
+                            <div class="subject-bar-fill biology" id="biology-bar" style="width: 0%"></div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Subjects View -->
-        <div class="view-section" id="subjects-view">
-            <div class="top-bar">
-                <div class="welcome-section">
-                    <h2>📚 Syllabus Tracker</h2>
-                    <p>Track your progress across all subjects and topics</p>
-                </div>
-            </div>
-
-            <div class="subjects-grid">
-                <!-- Physics Card -->
-                <div class="subject-card-new">
-                    <div class="subject-header-new">
-                        <div class="subject-title-row">
-                            <div class="subject-title-new">
-                                <span>⚛️</span>
-                                <span>Physics</span>
-                            </div>
-                            <span id="physics-count">0/0</span>
-                        </div>
-                        <div class="search-filter-row">
-                            <input type="text" class="search-input" placeholder="Search topics..."
-                                onkeyup="searchTopics('physics', this.value)">
-                        </div>
-                        <div class="filter-chips">
-                            <button class="chip active" onclick="filterTopics('physics', 'all', event)">All</button>
-                            <button class="chip" onclick="filterTopics('physics', 'completed', event)">Completed</button>
-                            <button class="chip" onclick="filterTopics('physics', 'pending', event)">Pending</button>
-                        </div>
-                    </div>
-                    <div class="subject-content" id="physics-content"></div>
-                </div>
-
-                <!-- Chemistry Card -->
-                <div class="subject-card-new">
-                    <div class="subject-header-new">
-                        <div class="subject-title-row">
-                            <div class="subject-title-new">
-                                <span>🧪</span>
-                                <span>Chemistry</span>
-                            </div>
-                            <span id="chemistry-count">0/0</span>
-                        </div>
-                        <div class="search-filter-row">
-                            <input type="text" class="search-input" placeholder="Search topics..."
-                                onkeyup="searchTopics('chemistry', this.value)">
-                        </div>
-                        <div class="filter-chips">
-                            <button class="chip active" onclick="filterTopics('chemistry', 'all', event)">All</button>
-                            <button class="chip" onclick="filterTopics('chemistry', 'completed', event)">Completed</button>
-                            <button class="chip" onclick="filterTopics('chemistry', 'pending', event)">Pending</button>
-                        </div>
-                    </div>
-                    <div class="subject-content" id="chemistry-content"></div>
-                </div>
-
-                <!-- Biology Card -->
-                <div class="subject-card-new">
-                    <div class="subject-header-new">
-                        <div class="subject-title-row">
-                            <div class="subject-title-new">
-                                <span>🧬</span>
-                                <span>Biology</span>
-                            </div>
-                            <span id="biology-count">0/0</span>
-                        </div>
-                        <div class="search-filter-row">
-                            <input type="text" class="search-input" placeholder="Search topics..."
-                                onkeyup="searchTopics('biology', this.value)">
-                        </div>
-                        <div class="filter-chips">
-                            <button class="chip active" onclick="filterTopics('biology', 'all', event)">All</button>
-                            <button class="chip" onclick="filterTopics('biology', 'completed', event)">Completed</button>
-                            <button class="chip" onclick="filterTopics('biology', 'pending', event)">Pending</button>
-                        </div>
-                    </div>
-                    <div class="subject-content" id="biology-content"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Timer View -->
-        <div class="view-section" id="timer-view">
-            <div class="top-bar">
-                <div class="welcome-section">
-                    <h2>⏱️ Study Timer</h2>
-                    <p>Focus and track your study sessions</p>
-                </div>
-            </div>
-
-            <div class="content-grid" style="grid-template-columns: 1fr;">
-                <div class="card timer-card">
-                    <div class="timer-display-large" id="timer-display">25:00</div>
-
-                    <div class="timer-modes">
-                        <button class="mode-btn active" onclick="setTimerMode('pomodoro')">Pomodoro (25m)</button>
-                        <button class="mode-btn" onclick="setTimerMode('short')">Short Break (5m)</button>
-                        <button class="mode-btn" onclick="setTimerMode('long')">Long Break (15m)</button>
-                        <button class="mode-btn" onclick="setTimerMode('custom')">Custom</button>
-                    </div>
-
-                    <div class="timer-controls">
-                        <button class="control-btn play" onclick="startTimer()">
-                            <span>▶️</span>
-                            <span>Start</span>
-                        </button>
-                        <button class="control-btn pause" onclick="pauseTimer()">
-                            <span>⏸️</span>
-                            <span>Pause</span>
-                        </button>
-                        <button class="control-btn reset" onclick="resetTimer()">
-                            <span>🔄</span>
-                            <span>Reset</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Goals View -->
-        <div class="view-section" id="goals-view">
-            <div class="top-bar">
-                <div class="welcome-section">
-                    <h2>🎯 Daily Goals</h2>
-                    <p>Set and achieve your daily study targets</p>
-                </div>
-                <div class="quick-actions">
-                    <button class="action-btn btn-primary" onclick="addGoal()">
-                        <span>➕</span>
-                        <span>Add Goal</span>
-                    </button>
-                </div>
-            </div>
-
+            <!-- Recent Activity -->
             <div class="card">
-                <div class="goals-list" id="goals-list">
-                    <div class="goal-item">
-                        <div class="goal-header">
-                            <span class="goal-title">Complete 5 Physics topics</span>
-                            <span style="color: var(--text-secondary); font-size: 0.875rem;">0/5</span>
-                        </div>
-                        <div class="goal-progress-bar">
-                            <div class="goal-progress-fill" style="width: 0%"></div>
-                        </div>
-                    </div>
-                    <div class="goal-item">
-                        <div class="goal-header">
-                            <span class="goal-title">Study for 3 hours</span>
-                            <span style="color: var(--text-secondary); font-size: 0.875rem;">0h/3h</span>
-                        </div>
-                        <div class="goal-progress-bar">
-                            <div class="goal-progress-fill" style="width: 0%"></div>
-                        </div>
+                <div class="card-header">
+                    <h3 class="card-title">📖 Recent Activity</h3>
+                    <button class="card-action" onclick="showView('history')">View All →</button>
+                </div>
+                <div class="activity-list" id="recentActivity">
+                    <div class="empty-state">
+                        <div class="empty-icon">📚</div>
+                        <div class="empty-text">No recent activity</div>
+                        <div class="empty-subtext">Start studying to see your activity here</div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Achievements View -->
-        <div class="view-section" id="achievements-view">
-            <div class="top-bar">
-                <div class="welcome-section">
-                    <h2>🏆 Achievements</h2>
-                    <p>Unlock achievements as you progress</p>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="achievements-grid">
-                    <div class="achievement" id="achievement-first-topic">
-                        <div class="achievement-icon">🎯</div>
-                        <div class="achievement-name">First Topic</div>
-                    </div>
-                    <div class="achievement" id="achievement-10-topics">
-                        <div class="achievement-icon">📚</div>
-                        <div class="achievement-name">10 Topics</div>
-                    </div>
-                    <div class="achievement" id="achievement-50-topics">
-                        <div class="achievement-icon">🌟</div>
-                        <div class="achievement-name">50 Topics</div>
-                    </div>
-                    <div class="achievement" id="achievement-100-topics">
-                        <div class="achievement-icon">💫</div>
-                        <div class="achievement-name">100 Topics</div>
-                    </div>
-                    <div class="achievement" id="achievement-7-day-streak">
-                        <div class="achievement-icon">🔥</div>
-                        <div class="achievement-name">7 Day Streak</div>
-                    </div>
-                    <div class="achievement" id="achievement-30-day-streak">
-                        <div class="achievement-icon">🚀</div>
-                        <div class="achievement-name">30 Day Streak</div>
-                    </div>
-                    <div class="achievement" id="achievement-physics-complete">
-                        <div class="achievement-icon">⚛️</div>
-                        <div class="achievement-name">Physics Master</div>
-                    </div>
-                    <div class="achievement" id="achievement-chemistry-complete">
-                        <div class="achievement-icon">🧪</div>
-                        <div class="achievement-name">Chemistry Pro</div>
-                    </div>
-                    <div class="achievement" id="achievement-biology-complete">
-                        <div class="achievement-icon">🧬</div>
-                        <div class="achievement-name">Biology Expert</div>
-                    </div>
-                    <div class="achievement" id="achievement-50-hours">
-                        <div class="achievement-icon">⏰</div>
-                        <div class="achievement-name">50 Hour Club</div>
-                    </div>
-                    <div class="achievement" id="achievement-100-hours">
-                        <div class="achievement-icon">⚡</div>
-                        <div class="achievement-name">100 Hour Club</div>
-                    </div>
-                    <div class="achievement" id="achievement-all-complete">
-                        <div class="achievement-icon">👑</div>
-                        <div class="achievement-name">Champion</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Notes View -->
-        <div class="view-section" id="notes-view">
-            <div class="top-bar">
-                <div class="welcome-section">
-                    <h2>📝 Study Notes</h2>
-                    <p>Keep track of important concepts and formulas</p>
-                </div>
-                <div class="quick-actions">
-                    <button class="action-btn btn-primary" onclick="saveNotes()">
-                        <span>💾</span>
-                        <span>Save Notes</span>
-                    </button>
-                </div>
-            </div>
-
-            <div class="card">
-                <textarea id="notes-textarea" style="width: 100%; min-height: 500px; background: var(--bg-secondary);
-                    border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; color: var(--text-primary);
-                    font-family: 'Inter', sans-serif; font-size: 1rem; resize: vertical;"
-                    placeholder="Write your study notes here..."></textarea>
-            </div>
-        </div>
-
-        <!-- Analytics View -->
-        <div class="view-section" id="analytics-view">
-            <div class="top-bar">
-                <div class="welcome-section">
-                    <h2>📈 Analytics</h2>
-                    <p>Track your study patterns and performance</p>
-                </div>
-            </div>
-
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <div>
-                            <div class="stat-label">Average Study Time/Day</div>
-                        </div>
-                        <div class="stat-icon primary">📊</div>
-                    </div>
-                    <div class="stat-value" id="avg-study-time">0h 0m</div>
-                </div>
-
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <div>
-                            <div class="stat-label">Most Productive Subject</div>
-                        </div>
-                        <div class="stat-icon success">🎯</div>
-                    </div>
-                    <div class="stat-value" id="best-subject" style="font-size: 1.5rem;">-</div>
-                </div>
-
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <div>
-                            <div class="stat-label">Topics This Month</div>
-                        </div>
-                        <div class="stat-icon warning">📚</div>
-                    </div>
-                    <div class="stat-value" id="topics-month">0</div>
-                </div>
-
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <div>
-                            <div class="stat-label">Days Until Exam</div>
-                        </div>
-                        <div class="stat-icon accent">⏰</div>
-                    </div>
-                    <div class="stat-value" id="days-until-exam">000</div>
-                </div>
-            </div>
-        </div>
+        <!-- Other views will be loaded here -->
+        <div class="view-section" id="subjects-view"></div>
+        <div class="view-section" id="timer-view"></div>
+        <div class="view-section" id="calendar-view"></div>
+        <div class="view-section" id="analytics-view"></div>
+        <div class="view-section" id="goals-view"></div>
+        <div class="view-section" id="achievements-view"></div>
+        <div class="view-section" id="history-view"></div>
+        <div class="view-section" id="notes-view"></div>
+        <div class="view-section" id="settings-view"></div>
     </main>
+
+    <!-- Focus Mode Overlay -->
+    <div class="focus-mode-overlay" id="focusModeOverlay">
+        <div class="focus-mode-content">
+            <div class="focus-timer" id="focusTimer">25:00</div>
+            <div class="focus-message" id="focusMessage">Stay focused and ace your goals! 🎯</div>
+            <button class="focus-exit" onclick="toggleFocusMode()">Exit Focus Mode</button>
+        </div>
+    </div>
 
     <script src="app.js"></script>
 </body>
